@@ -17,7 +17,6 @@ alias brclean='brew cleanup'  # cleanup old versions
 
 # brew casks
 alias brc='brew cask'
-alias brcs='brew cask search'
 alias brcl='brew cask list'
 alias brci='brew cask install'
 alias brcuni='brew cask uninstall'

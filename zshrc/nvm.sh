@@ -13,11 +13,20 @@ alias nvmuse='nvm use'
 alias nvmi='nvm install'
 alias nvmun='nvm uninstall'
 
+NVM_LOAD_NVMRC=true
+nvm_toggle_LOAD_NVMRC() { plToggle NVM_LOAD_NVMRC }
+nvmlr() { nvm ls-remote $(nvm version node | cut -d. -f1) }
+nvmifrom() {
+  if [ ! -n "$1" ]; then echo 'require version number'; return 1; fi
+  local node_version=$(nvm version node 2>/dev/null)
+  nvm install $1 --reinstall-packages-from=${2:-${node_version:1}}
+}
+
 # nvm performance issue https://github.com/creationix/nvm/issues/860
-# set default version manually avoid "nvm alias", "nvm use"
+# set default version manually to avoid running "nvm alias", "nvm use"
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" --no-use  # just load nvm without doing `nvm use`
-NODE_VERSION='v10.0.0'
+NODE_VERSION='v10.9.0'
 export PATH="$NVM_DIR/versions/node/$NODE_VERSION/bin:$PATH"   # insert path to override built-in node path
 
 # https://medium.com/@kinduff/automatic-version-switch-for-nvm-ff9e00ae67f3
@@ -31,5 +40,11 @@ load-nvmrc() {
     nvm use default
   fi
 }
-add-zsh-hook chpwd load-nvmrc
-load-nvmrc
+load-nvmrc-with-flag() {
+  if [ "$NVM_LOAD_NVMRC" != true ]; then
+    return 0
+  fi
+  load-nvmrc
+}
+add-zsh-hook chpwd load-nvmrc-with-flag
+load-nvmrc-with-flag

@@ -14,6 +14,7 @@ alias gcaamendnoedit='git commit -a --amend --no-edit'
 alias gcamend='git commit --amend'
 alias gcamendnoedit='git commit --amend --no-edit'
 alias gcAllowEmpty='gc --allow-empty'
+alias gcpn='git cherry-pick -n'
 alias grbonto='grb --onto'  # zsh has grb: 'git rebase'
 alias grbabort='grb --abort'
 alias greset='git reset'
@@ -23,11 +24,14 @@ alias gstl='git stash list'
 alias glprune='gl --prune'  # use zsh alias gl: git pull (Dec 20 16')
 alias gfprune='gf --all --prune'  # use zsh alias gf: git fetch (Apr 21 17')
 alias gconf='git config'
+alias gpf='gp --force-with-lease'
 alias gptags='gp --follow-tags'
+alias grefl='git reflog'
 
 gco-() { gco - }
 gpoCurrentbranch() { gp origin $(gcurrentbranch) } # use zsh alias in custom alias 'gp', push current branch to origin (Jan 5 17')
 gpoCurrentbranchTracking() { gp origin -u $(gcurrentbranch) }
+gpod() { gp origin --delete ${1:-$(gcurrentbranch)} }
 gloa--() { git log --all -- $1 }  # log with --all option to includes commits involves renaming
 grbMasterPush() { gco ${1:-$(gcurrentbranch)} && grb ${1:-$(gcurrentbranch)} && grb master && gp -f }
 gfpmergable() { gfprune && gbmergable } # fetch with prune and show mergable branches

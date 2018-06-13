@@ -41,7 +41,7 @@ const blinkWhenTabHasActitivy = ({ color } = {}) => `
     }
   }
 `;
-const showDotWhenTabHasActitivy = ({ color } = {}) => `
+const showDotOnTabActive = ({ color } = {}) => `
   &.tab_hasActivity > span.tab_text > span.tab_textInner {
     &::after {
       content: "";
@@ -57,7 +57,16 @@ const showDotWhenTabHasActitivy = ({ color } = {}) => `
     }
   }
 `;
-const showBottomStripeOnTab = ({ color } = {}) => `
+const showBottomStripe = ({ color }) => `
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: ${color || 'gold'};
+`;
+const showBottomStripeOnTabActive = ({ color } = {}) => `
   &.tab_active::after {
     transform: scaleX(1);
   }
@@ -66,13 +75,7 @@ const showBottomStripeOnTab = ({ color } = {}) => `
     will-change: transform;
     -webkit-transition: transform 350ms ease-in;
 
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 2px;
-    background: ${color || 'gold'};
+    ${showBottomStripe({ color })}
   }
 `;
 const setTabColorWhenActive = color => `
@@ -133,12 +136,21 @@ module.exports = {
         // TODO add letter spacing for text
       }
 
-      header > nav > ul > li {
-        font-size: 0.9rem;
-        ${setTabColorWhenActive(defaultTabTitleColor)}
-        ${showBottomStripeOnTab({ color: mediumBrandColor })}
-        ${showDotWhenTabHasActitivy({ color: mediumBrandColor })}
-        // blinkWhenTabHasActitivy({ color: mediumBrandColor})
+      header > nav.tabs_nav {
+        & > .tabs_title {
+          font-size: 0.9rem;
+          color: ${defaultTabTitleColor};
+          &::after {
+            ${showBottomStripe({ color: mediumBrandColor })}
+          }
+        }
+        & > ul > li {
+          font-size: 0.9rem;
+          ${setTabColorWhenActive(defaultTabTitleColor)}
+          ${showBottomStripeOnTabActive({ color: mediumBrandColor })}
+          ${showDotOnTabActive({ color: mediumBrandColor })}
+          // blinkWhenTabHasActitivy({ color: mediumBrandColor})
+        }
       }
     `,
 

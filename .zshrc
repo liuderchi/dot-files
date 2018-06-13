@@ -156,30 +156,57 @@ alias psAUX='ps -aux'
 alias sourceBashrc='source ~/.bashrc'
 alias sourceZshrc='source ~/.zshrc'
 alias copy='pbcopy'  # pipable clipboard in macOS
+alias wi='which'
+alias cl='clear'
+alias mdlint='markdownlint'
 
 cddirname() { cd $(dirname ${1:-$(pwd)}) }
 checkReboot() { if [ -f /var/run/reboot-required ]; then echo 'reboot required'; else echo 'no need reboot'; fi }
 pd() { pushd -${1:-1}}  # go find right (from top) (pushd -1 or push -X)
 pd-() { pushd +${1:-0}}  # go find left (from bottom)
+alias pd2='pd; pd-'
 # TODO pd interactively
 psAUXGrep() { psAUX | awk '{if(NR==1)print}'; psAUX | grep $1 }
 grepc() { grep -C ${2:-5} $1 }
 shellOptions() { print $- }
 getCurrentShell() { ps -ef | grep $$ | grep -v grep }
 
+alias bb='byobu'
+alias bbe='byobu-enable'
+alias bbd='byobu-disable'
 
 # docker, docker-compose
 alias dk='docker'
 alias dki='docker image'
 alias dkils='docker image ls'
+alias dkirm='docker image rm'
+alias dkb='docker build'
 alias dkc='docker container'
 alias dkcls='docker container ls'
+alias dkcrm='docker container rm'
+alias dkcre='docker container restart'
 alias dkcs='docker container stop'
+alias dkcp='docker container prune'
+alias dkp='docker push'
 alias dkps='docker ps'
 alias dkpsa='docker ps -a'   # list all containers including exit
-
+alias dkpsaq='docker ps -aq'
+alias dkt='docker tag'
+alias dkl='docker logs'
 alias dkr='docker run'
 alias dkrrm='docker run --rm'
+alias dkrrmdp='docker run --rm -d -P'
+dkgentag() {
+  local _date=$(date +'%Y%m%d')
+  local commitHash=$(git rev-parse HEAD)
+  local title=${1:-$(gcurrentbranch | sed 's/\//__/g')}
+  print $title-$_date-${commitHash:0:9}
+}
+dkgenBKPtag() {
+  local _title=''
+  if [ -n "$1" ]; then _title="-$1"; fi
+  print bkp__$(date +'%m%d')$_title
+}
 dkrbash() { docker run --rm -it ${1:-''} /bin/bash }
 
 # TODO docker run vs docker exec

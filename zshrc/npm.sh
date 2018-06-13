@@ -10,6 +10,7 @@ alias npunlink='npm unlink'
 alias npod='npm outdated'
 alias nprun='npm run'
 alias npv='npm version'
+npGlobalDep() { echo $(nplg | sed 1d | cut -d\  -f2 | cut -d@ -f1) }
 npruni() {
     # npi TODO interactive `npm run foo` prompt powered by ipt
     # interactive npm run foo  https://jaketrent.com/post/list-npm-scripts/
