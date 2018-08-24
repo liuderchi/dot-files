@@ -93,6 +93,7 @@ source $ZSH/oh-my-zsh.sh
 # NOTE my custom scripts for some command
 source "$HOME/zshrc/env.cfg"
 source "$HOME/zshrc/git.sh"
+source "$HOME/zshrc/git-extras.sh"
 source "$HOME/zshrc/github.sh"
 source "$HOME/zshrc/nvm.sh"
 source "$HOME/zshrc/npm.sh"
