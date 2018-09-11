@@ -189,5 +189,18 @@ findMarkdownHas() {
 clearAtomNodeModules() { rm -rf node_modules apm/node_modules script/node_modules }
 buildAtomThenInstall() { ./script/build --code-sign --install }
 
+# Add Visual Studio Code (code)
+# https://code.visualstudio.com/docs/setup/mac
+PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
+
+# Improved CLI tools   https://remysharp.com/2018/08/23/cli-improved?utm_campaign=CodeTengu&utm_medium=web&utm_source=CodeTengu_141
+alias cat='bat'
+alias ping="$HOME/prettyping --nolegend"  # install prettyping to
+export FZF_DEFAULT_COMMAND='find * -type f -not -path "node_modules/**"'
+p() { fzf --preview 'bat --color "always" {}' }
+h() { eval $( ([ -n "$ZSH_NAME" ] && fc -l 1 || history) | fzf +s --tac | sed 's/ *[0-9]* *//') }
+hh() { print -z $( ([ -n "$ZSH_NAME" ] && fc -l 1 || history) | fzf +s --tac | sed 's/ *[0-9]* *//') }
+# See also https://github.com/junegunn/fzf/wiki/examples#command-history
+
 # rust, cargo
 PATH="$PATH:$HOME/.cargo/bin"

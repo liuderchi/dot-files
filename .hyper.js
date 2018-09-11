@@ -7,6 +7,8 @@
 // NOTE cannot use console.log, module.require here
 // TODO add theme object
 
+// toggle hyper-pokemon
+const ENABLE_POKEMON = false;
 const mtkBrandColor = 'rgba(243, 154, 30, 0.5)';
 const mediumBrandColor = 'rgb(0, 171, 108)';
 const defaultTabTitleColor = 'rgb(204, 204, 204)';
@@ -141,16 +143,26 @@ module.exports = {
           font-size: 0.9rem;
           color: ${defaultTabTitleColor};
           &::after {
-            ${showBottomStripe({ color: mediumBrandColor })}
+            ${ENABLE_POKEMON ? '' : showBottomStripe({ color: mediumBrandColor })}
           }
         }
         & > ul > li {
           font-size: 0.9rem;
           ${setTabColorWhenActive(defaultTabTitleColor)}
-          ${showBottomStripeOnTabActive({ color: mediumBrandColor })}
+          ${ENABLE_POKEMON ? 'background-color: transparent!important;' : ''}
+          ${
+            ENABLE_POKEMON
+              ? ''
+              : showBottomStripeOnTabActive({ color: mediumBrandColor })
+          }
           ${showDotOnTabActive({ color: mediumBrandColor })}
           // blinkWhenTabHasActitivy({ color: mediumBrandColor})
         }
+      }
+
+      // divider
+      .terms_terms .splitpane_panes > .splitpane_divider {
+        background-color: black!important;
       }
     `,
 
@@ -192,6 +204,10 @@ module.exports = {
       lightCyan: 'rgba(55, 230, 232, 1)',
       lightWhite: 'rgba(241, 241, 240, 1)',
     },
+    // configs for hyper-pokemon
+    pokemon: ['dragonite', 'snorlax', 'mew', 'ditto'],
+    unibody: 'true',
+    poketab: 'false',
 
     // the shell to run when spawning a new session (i.e. /usr/local/bin/fish)
     // if left empty, your system's login shell will be used by default
@@ -244,7 +260,7 @@ module.exports = {
         },
       },
       showIndicators: false, // Show pane number
-      inactivePaneOpacity: 0.65, // Set to 1 to disable inactive panes dimming
+      inactivePaneOpacity: 0.5, // Set to 1 to disable inactive panes dimming
     },
 
     // NOTE Plugin: hyper-confirm
@@ -253,7 +269,13 @@ module.exports = {
 
   // a list of plugins to fetch and install from npm
   // format: [@org/]project[#version]
-  plugins: ['hyper-pane', 'hyper-search', 'hypercwd', 'hyper-confirm'],
+  plugins: [
+    'hyper-pane',
+    'hyper-search',
+    'hypercwd',
+    'hyper-confirm',
+    ENABLE_POKEMON ? 'hyper-pokemon' : '',
+  ],
 
   // in development, you can create a directory under
   // `~/.hyper_plugins/local/` and include it here
