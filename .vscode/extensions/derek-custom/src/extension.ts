@@ -3,18 +3,17 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
 
-const getYearMonthDay = (date = new Date()) => ([
+const getYearMonthDay = (date = new Date()) => [
   date.getFullYear(),
-  String(date.getMonth() + 1).padStart(2, "0"),
-  String(date.getDate()).padStart(2, "0"),
-]);
+  String(date.getMonth() + 1).padStart(2, '0'),
+  String(date.getDate()).padStart(2, '0'),
+];
 
 export function activate(context: vscode.ExtensionContext) {
   console.log('Congratulations, your extension "derek-custom" is now active!');
 
-  let disposable = vscode.commands.registerCommand(
-    'extension.md.insertInitTemplate',
-    () => {
+  context.subscriptions.push(
+    vscode.commands.registerCommand('extension.md.insertInitTemplate', () => {
       const filenameNoExt = /(.*?)(?:\.[^.]+)?$/.exec(
         path.basename(vscode.window.activeTextEditor.document.fileName),
       )[1];
@@ -31,10 +30,8 @@ export function activate(context: vscode.ExtensionContext) {
       if (!editor) return;
 
       editor.edit(edit => edit.insert(new vscode.Position(0, 0), template));
-    },
+    }),
   );
-
-  context.subscriptions.push(disposable);
 }
 
 export function deactivate() {}
