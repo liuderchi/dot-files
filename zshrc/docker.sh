@@ -6,24 +6,36 @@ alias dkirm='docker image rm'
 alias dkv='docker volume'
 alias dkvp='docker volume prune'
 alias dkb='docker build'
+
 alias dkc='docker container'
 alias dkcls='docker container ls'
 alias dkcrm='docker container rm'
+alias dkrm='docker rm'
 alias dkcre='docker container restart'
-alias dkcs='docker container stop'
+alias dkre='docker restart'
+alias dkcs='docker container start'
+alias dks='docker start'
+alias dkcss='docker container stop'
+alias dkss='docker stop'
+alias dkca='docker container attach'
+alias dka='docker attach'
 alias dkcp='docker container prune'
+
 alias dkp='docker push'
+alias dkpl='docker pull'
 alias dkps='docker ps'
 alias dkpsa='docker ps -a'   # list all containers including exit
 alias dkpsaq='docker ps -aq'
-alias dks='docker system'
-alias dksp='docker system prune'
-alias dkspvp='docker system prune && docker volume prune'
+alias dksy='docker system'
+alias dksyp='docker system prune'
+alias dksypvp='docker system prune && docker volume prune'
 alias dkt='docker tag'
 alias dkl='docker logs'
+alias dkcr='docker container run'
 alias dkr='docker run'
 alias dkrrm='docker run --rm'
 alias dkrrmdp='docker run --rm -d -P'
+alias dke='docker exec'
 dkgentag() {
   local _date=$(date +'%Y%m%d')
   local commitHash=$(git rev-parse HEAD)
@@ -36,8 +48,14 @@ dkgenBKPtag() {
   print bkp__$(date +'%m%d')$_title
 }
 dkrbash() { docker run --rm -it ${1:-''} /bin/bash }
-
-# TODO docker run vs docker exec
+dkeibash() {
+  if [[ -z "$1" ]]; then echo '⚠️  usage: dkeibash MY-RUNNING-CONTAINER'; fi
+  docker exec -it $1 bash
+}
+dkeish() {
+  if [[ -z "$1" ]]; then echo '⚠️  usage: dkeish MY-RUNNING-CONTAINER'; fi
+  docker exec -it $1 sh
+}
 
 alias dcomp='docker-compose'
 alias dcompu='docker-compose up'
