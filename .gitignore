@@ -24,3 +24,7 @@
 
 !.hyper_plugins
 !.hyper_plugins/package.json
+
+!.vscode
+!.vscode/extensions
+!.vscode/extensions/derek-custom
