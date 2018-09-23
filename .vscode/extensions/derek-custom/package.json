@@ -13,7 +13,7 @@
   "activationEvents": [
     "onCommand:extension.md.insertInitTemplate"
   ],
-  "main": "./out/extension",
+  "main": "./out/main",
   "contributes": {
     "commands": [
       {

@@ -30,6 +30,7 @@ export function activate(context: vscode.ExtensionContext) {
       if (!editor) return;
 
       editor.edit(edit => edit.insert(new vscode.Position(0, 0), template));
+      // TODO insert at current line
     }),
   );
 }
