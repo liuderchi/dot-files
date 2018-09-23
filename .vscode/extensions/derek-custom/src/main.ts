@@ -2,12 +2,8 @@
 
 import * as vscode from 'vscode';
 import * as path from 'path';
+import { getYearMonthDay } from './_util';
 
-const getYearMonthDay = (date = new Date()) => [
-  date.getFullYear(),
-  String(date.getMonth() + 1).padStart(2, '0'),
-  String(date.getDate()).padStart(2, '0'),
-];
 
 export function activate(context: vscode.ExtensionContext) {
   console.log('Congratulations, your extension "derek-custom" is now active!');
