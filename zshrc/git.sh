@@ -66,13 +66,23 @@ gbmove() {   # move branch to other reference without checking out
 gmergeBy() {  # merge some branch into current branch without changing file system
   gbmove $1 && gco $1
 }
-grbontoHead() {
-    if [ -z "$1" ]; then echo 'grbontoHead: should specify a target ref'; return 1; fi
-    local target=$1
-    local currentRoot='HEAD'
-    if [ -n "$2" ]; then currentRoot="HEAD~$2"; fi
-    echo "doing grbonto $target $currentRoot ..."
-    grbonto $target $currentRoot
+grbontoFromCurrentTo() {
+  if [ -z "$1" ]; then echo 'grbontoFromCurrentTo: should specify a target ref'; return 1; fi
+  local target=$1
+  local sourceRoot=$(g merge-base HEAD $1)  # fork point as default
+  if [ -n "$2" ]; then sourceRoot="HEAD~$2"; fi
+
+  echo "doing grbonto $target $sourceRoot ..."
+  grbonto $target $sourceRoot
+}
+grbontoToCurrentFrom() {
+  if [ -z "$1" ]; then echo 'grbontoToCurrentFrom: should specify a target ref'; return 1; fi
+  local source=$1
+  local sourceRoot=$(g merge-base HEAD $1)  # fork point as default
+  if [ -n "$2" ]; then sourceRoot="$source~$2"; fi
+
+  echo "doing grbonto HEAD $sourceRoot $source ..."
+  grbonto HEAD $sourceRoot $source
 }
 grmuntrackfiles() { rm $(git ls-files --others --exclude-standard) }
 gsync() { gco $1 && gl && gp origin }   # sync current branch by mergin if not arg specified
