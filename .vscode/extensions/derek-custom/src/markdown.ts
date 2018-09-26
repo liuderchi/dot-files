@@ -22,6 +22,16 @@ const insertInitTemplate = () => {
 
   editor.edit(edit => edit.replace(editor.selection, template));
 };
+
+const insertToday = () => {
+  let editor = vscode.window.activeTextEditor;
+  if (!editor) throw 'No Active Editor';
+
+  const [year, month, day] = getYearMonthDay();
+
+  editor.edit(edit =>
+    edit.replace(editor.selection, `${year}-${month}-${day}`),
+  );
 };
 
 export const insertInitTemplateDisposable = vscode.commands.registerCommand(
@@ -29,4 +39,9 @@ export const insertInitTemplateDisposable = vscode.commands.registerCommand(
   withWarningMessage(insertInitTemplate),
 );
 
-export default [insertInitTemplateDisposable];
+export const insertTodayDisposable = vscode.commands.registerCommand(
+  'extension.md.insertToday',
+  withWarningMessage(insertToday),
+);
+
+export default [insertInitTemplateDisposable, insertTodayDisposable];

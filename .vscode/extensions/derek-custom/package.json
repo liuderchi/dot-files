@@ -11,7 +11,8 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:extension.md.insertInitTemplate"
+    "onCommand:extension.md.insertInitTemplate",
+    "onCommand:extension.md.insertToday"
   ],
   "main": "./out/main",
   "contributes": {
@@ -19,6 +20,10 @@
       {
         "command": "extension.md.insertInitTemplate",
         "title": "Markdown: Insert Init Template"
+      },
+      {
+        "command": "extension.md.insertToday",
+        "title": "Markdown: Insert Today"
       }
     ]
   },
