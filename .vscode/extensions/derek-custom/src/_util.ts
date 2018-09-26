@@ -10,10 +10,10 @@ export const getYearMonthDay: (date?: Date) => [number, string, string] = (
   String(date.getDate()).padStart(2, '0'),
 ];
 
-export const withWarningMessage = (fcn) => () => {
+export const withWarningMessage = (fcn: () => void) => () => {
   try {
     fcn();
   } catch (e) {
     vscode.window.showWarningMessage(e);
   }
-}
+};
