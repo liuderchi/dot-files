@@ -18,10 +18,10 @@ const insertInitTemplate = () => {
     .join(' ');
   const [year, month, day] = getYearMonthDay();
 
-  const template = `# ${fileNameCap}\n\n## Date\n\n- ${year}-${month}-${day}\n\n## Description\n\n-\n__WIP ${year}-${month}-${day}__`;
+  const template = `# ${fileNameCap}\n## Date\n\n- ${year}-${month}-${day}\n\n## Description\n\n-\n__WIP ${year}-${month}-${day}__\n`;
 
-  editor.edit(edit => edit.insert(new vscode.Position(0, 0), template));
-  // TODO insert at current line
+  editor.edit(edit => edit.replace(editor.selection, template));
+};
 };
 
 export const insertInitTemplateDisposable = vscode.commands.registerCommand(
