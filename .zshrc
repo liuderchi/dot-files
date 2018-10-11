@@ -85,6 +85,9 @@ plugins=(osx \
 #    history: hs 'git pull'  # show usage
 #    debian:  di  # 'sudo dpkg -i'
 
+# export color mode (for tmux)
+export TERM="xterm-256color"
+
 # NOTE my custom scripts for zsh theme
 source "$HOME/zshrc/pl9k.sh"
 
@@ -172,6 +175,25 @@ psAUXGrep() { psAUX | awk '{if(NR==1)print}'; psAUX | grep $1 }
 grepc() { grep -C ${2:-5} $1 }
 shellOptions() { print $- }
 getCurrentShell() { ps -ef | grep $$ | grep -v grep }
+
+alias tm='tmux'
+alias tml='tmux ls'
+tmn() {
+  if [ -z "$1" ]; then echo 'tmux: specify target session'; return -1; fi
+  tmux new -s $1
+}
+tma() {
+  if [ -z "$1" ]; then echo 'tmux: specify target session'; return -1; fi
+  tmux attach -t $1
+}
+tmks() {
+  if [ -z "$1" ]; then echo 'tmux: specify target session'; return -1; fi
+  tmux kill-session -t $1
+}
+tmkw() {
+  if [ -z "$1" ]; then echo 'tmux: specify target window'; return -1; fi
+  tmux kill-window -t $1
+}
 
 alias bb='byobu'
 alias bbe='byobu-enable'
