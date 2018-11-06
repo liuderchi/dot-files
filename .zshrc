@@ -226,3 +226,10 @@ hh() { print -z $( ([ -n "$ZSH_NAME" ] && fc -l 1 || history) | fzf +s --tac | s
 
 # rust, cargo
 PATH="$PATH:$HOME/.cargo/bin"
+
+# vscode
+vslink() { ln -s $(pwd) $HOME/.vscode/extensions/$(basename $(pwd)) }
+vsunlink() {
+  if [ -z "$1" ]; then echo 'vsunlink: should specify extension name'; return 1; fi
+  rm -rf $HOME/.vscode/extensions/$1
+}
