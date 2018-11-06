@@ -12,7 +12,8 @@
   ],
   "activationEvents": [
     "onCommand:extension.md.insertInitTemplate",
-    "onCommand:extension.md.insertToday"
+    "onCommand:extension.md.insertToday",
+    "onCommand:extension.util.insertFunctionalComponent"
   ],
   "main": "./out/main",
   "contributes": {
@@ -24,6 +25,10 @@
       {
         "command": "extension.md.insertToday",
         "title": "Markdown: Insert Today"
+      },
+      {
+        "command": "extension.util.insertFunctionalComponent",
+        "title": "Util: Insert Functional Component"
       }
     ]
   },

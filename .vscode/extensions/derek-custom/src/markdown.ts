@@ -1,47 +1,34 @@
 'use strict';
 
 import * as vscode from 'vscode';
-import * as path from 'path';
-import { getYearMonthDay, withWarningMessage } from './_util';
+import {
+  getFileNameCap,
+  getYearMonthDay,
+  withWarningMessage,
+  withActiveEditor,
+} from './_util';
 
-const insertInitTemplate = () => {
-  let editor = vscode.window.activeTextEditor;
-  if (!editor) throw 'No Active Editor';
-
-  const filenameNoExt = /(.*?)(?:\.[^.]+)?$/.exec(
-    path.basename(vscode.window.activeTextEditor.document.fileName),
-  )[1];
-  const fileNameCap = filenameNoExt
-    .replace(/[!-.\:-\@\[-\`\{-~]/g, ' ') // non-Word, /[\W_]/g
-    .split(' ')
-    .map(w => w.charAt(0).toUpperCase() + w.slice(1))
-    .join(' ');
+const insertInitTemplate = ({ editor }: { editor: any }) => {
+  const fileNameCap = getFileNameCap(editor.document.fileName);
   const [year, month, day] = getYearMonthDay();
-
-  const template = `# ${fileNameCap}\n## Date\n\n- ${year}-${month}-${day}\n\n## Description\n\n-\n__WIP ${year}-${month}-${day}__\n`;
-
-  editor.edit(edit => edit.replace(editor.selection, template));
+  const template = `# ${fileNameCap}\n\n## Date\n\n- ${year}-${month}-${day}\n\n## Description\n\n-\n__WIP ${year}-${month}-${day}__\n`;
+  editor.edit((edit: string) => edit.replace(editor.selection, template));
 };
 
-const insertToday = () => {
-  let editor = vscode.window.activeTextEditor;
-  if (!editor) throw 'No Active Editor';
-
+const insertToday = ({ editor }: { editor: any }) => {
   const [year, month, day] = getYearMonthDay();
-
-  editor.edit(edit =>
+  editor.edit((edit: string) =>
     edit.replace(editor.selection, `${year}-${month}-${day}`),
   );
 };
 
-export const insertInitTemplateDisposable = vscode.commands.registerCommand(
-  'extension.md.insertInitTemplate',
-  withWarningMessage(insertInitTemplate),
-);
-
-export const insertTodayDisposable = vscode.commands.registerCommand(
-  'extension.md.insertToday',
-  withWarningMessage(insertToday),
-);
-
-export default [insertInitTemplateDisposable, insertTodayDisposable];
+export default [
+  vscode.commands.registerCommand(
+    'extension.md.insertInitTemplate',
+    withWarningMessage(withActiveEditor(insertInitTemplate)),
+  ),
+  vscode.commands.registerCommand(
+    'extension.md.insertToday',
+    withWarningMessage(withActiveEditor(insertToday)),
+  ),
+];

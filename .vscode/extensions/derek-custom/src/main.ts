@@ -2,10 +2,14 @@
 
 import * as vscode from 'vscode';
 import markdownDisposables from './markdown';
+import utilDisposables from './util';
 
 export function activate(context: vscode.ExtensionContext) {
-  markdownDisposables.forEach(disposable =>
-    context.subscriptions.push(disposable),
+  context.subscriptions.splice(
+    0,
+    0,
+    ...markdownDisposables,
+    ...utilDisposables,
   );
 }
 
