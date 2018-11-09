@@ -122,16 +122,18 @@ const getYearMonthDay = (date = new Date()) => ([
   String(date.getDate()).padStart(2, "0"),
 ])
 
-const doByPlatform = obj => {
-  if (obj[process.platform]) { return obj[process.platform]() }
-}
-
-const jumpToSearchMatch = ({regex, offset = 0}) => requireEditor(({ editor }) => {
-  editor.scan(regex, null, ({ range: { start } }) => {
-    editor.setCursorBufferPosition(start.translate([0, offset]))
-    editor.scrollToBufferPosition(start, {center: true})
+const jumpToSearchMatch = ({ regex, offset = 0 }) =>
+  requireEditor(({ editor }) => {
+    const WHOLE_RANGE = [[0, 0], [editor.getLastBufferRow(), 999]];
+    editor.backwardsScanInBufferRange(
+      regex,
+      WHOLE_RANGE,
+      ({ range: { start } }) => {
+        editor.setCursorBufferPosition(start.translate([0, offset]))
+        editor.scrollToBufferPosition(start, { center: true })
+      }
+    )
   })
-})
 
 const replaceWordOfCurrentLine = ({ regex, str }) => {
   requireCursor(({ editor, cursor }) => {
@@ -164,6 +166,43 @@ const openAllFilesInDir = ({ dirPath, splitPane = '' }) => openFiles({
   paths: getAllFilesInDir({ dirPath }),
   splitPane
 })
+
+// Register open file commands for a set of file paths
+const registerOpenFileCommands = ({ prefix = "util:open", paths }) => {
+  addCmd(
+    "atom-workspace",
+    `${prefix}-all-files`,
+    openFiles({
+      paths,
+      splitPane: "left"
+    })
+  )
+  paths.forEach(p => {
+    addCmd(
+      "atom-workspace",
+      `${prefix}-${path.basename(p)}`,
+      openFiles({ paths: [p] })
+    )
+  })
+}
+
+const registerDiffFileCommands = ({
+  name = "util:diff-files",
+  pathGroups = []
+}) => {
+  addCmd("atom-workspace", name, () =>
+    pathGroups.reduce(
+      (acc, pathGroup) =>
+        acc.then(
+          openFiles({
+            paths: pathGroup,
+            splitPane: "left"
+          })
+        ),
+      Promise.resolve("start")
+    )
+  )
+}
 
 // NOTE prepare a set to manage disposable subscription for editor onWillSave
 // ref https://discuss.atom.io/t/activate-on-save-event/11089/2
@@ -211,7 +250,7 @@ const removeCurrentEditorDescription = () => {
   // TODO
 }
 
-module.exports = {
+export default {
   HOME_DIR,
   CURSOR_MOVE_BIG,
   addCmd,
@@ -227,12 +266,13 @@ module.exports = {
   mdInsertion,
   i18nOpenCsonBatch,
   getYearMonthDay,
-  doByPlatform,
   jumpToSearchMatch,
   replaceWordOfCurrentLine,
   getAllFilesInDir,
   openFiles,
   openAllFilesInDir,
+  registerOpenFileCommands,
+  registerDiffFileCommands,
   getMyBufferSubscriptions,
   clearSubcriptions,
   markdownEditorsOnWillSave,

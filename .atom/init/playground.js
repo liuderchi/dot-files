@@ -5,13 +5,8 @@ import path from 'path';
 
 import {
   addCmd,
-  dispatchCmd,
   requireEditor,
   requireCursor,
-  jumpToSearchMatch,
-  getAllFilesInDir,
-  openFiles,
-  HOME_DIR,
 } from './_util';
 
 const printAllGrammarsByPrefix = ({ prefix = '', editor }) => {
@@ -162,37 +157,4 @@ addCmd(
     atom.config.settings.whitespace.ensureSingleTrailingNewline = !atom.config
       .settings.whitespace.ensureSingleTrailingNewline;
   }),
-);
-
-// vscode
-const openVScodeConfigs = openFiles({
-  paths: [
-    ...getAllFilesInDir({
-      dirPath: path.join(HOME_DIR, "Library/Application Support/Code/User")
-    }),
-    ...getAllFilesInDir({
-      dirPath: path.join(HOME_DIR, "Library/Application Support/Code/User/snippets")
-    }),
-  ],
-  splitPane: "left"
-});
-
-addCmd("atom-workspace", "util:open-vscode-files", openVScodeConfigs);
-
-addCmd("atom-workspace", "util:diff-vscode-files", () =>
-  Promise.resolve("start")
-    .then(openVScodeConfigs)
-    .then(
-      openFiles({
-        paths: [
-          ...getAllFilesInDir({
-            dirPath: path.join(
-              HOME_DIR,
-              "CloudStation/Documents/VScode/configs"
-            )
-          })
-        ],
-        splitPane: "left"
-      })
-    )
 );

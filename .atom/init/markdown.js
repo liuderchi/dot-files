@@ -10,7 +10,6 @@ import {
   insertTextToAllSelection,
   mdInsertion,
   getYearMonthDay,
-  doByPlatform,
   jumpToSearchMatch,
   replaceWordOfCurrentLine,
   getMyBufferSubscriptions,

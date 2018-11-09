@@ -5,10 +5,8 @@
 import path from 'path'
 
 import {
-  HOME_DIR,
   CURSOR_MOVE_BIG,
   addCmd,
-  dispatchCmd,
   requireEditor,
   requireCursor,
   bindActiveCursor,
@@ -18,9 +16,19 @@ import {
   insertTextToAllSelection,
   mdInsertion,
   i18nOpenCsonBatch,
-  getAllFilesInDir,
   openFiles,
+  registerOpenFileCommands,
+  registerDiffFileCommands,
 } from './_util'
+import {
+  vscodeConfigPaths,
+  atomConfigPaths,
+  zshConfigPaths,
+  hyperConfigPaths,
+  nvmConfigPaths,
+  tmuxConfigPaths,
+  privateConfigPaths,
+} from './env.js'
 
 
 // addCmd('atom-text-editor', 'util:print-scope-descriptor-by-current-cursor', bindActiveCursor(() => {  // FAIL
@@ -58,84 +66,69 @@ addCmd('atom-text-editor', 'util:tokenize-selected-text-by-grammar', requireEdit
 addCmd('atom-text-editor', 'util:unfold-selected', requireEditor(({ editor }) => editor.getSelectedBufferRanges()
   .forEach(range => editor.destroyFoldsIntersectingBufferRange(range))))
 
-addCmd('atom-workspace', 'util:diff-dot-atom-files', requireEditor(({ editor }) => {
-  const DOT_ATOM_FILES = ['init.js', 'config.cson', 'styles.less', 'styles_icons.less', 'keymap.cson', 'snippets.cson']
-  paneElement = atom.views.getView(atom.workspace.getActivePane())
-  if (!paneElement) { return }
-  Promise.resolve('start')
-    .then(openFiles({   // NOTE dispatchCmd is async so deprecate it
-      paths: [
-        ...DOT_ATOM_FILES.map(p => path.join(HOME_DIR, '.atom', p)),
-        ...getAllFilesInDir({ dirPath: path.join(HOME_DIR, '.atom/init') })
-      ],
-      splitPane: 'left',
-    }))
-    .then(openFiles({
-      paths: [
-        ...DOT_ATOM_FILES.map(p => path.join(HOME_DIR, 'CloudStation/Documents/Atom/dot-atom', p)),
-        ...getAllFilesInDir({ dirPath: path.join(HOME_DIR, 'CloudStation/Documents/Atom/dot-atom/init') })
-      ],
-      splitPane: 'left',
-    }))
-}))
-
-const openDotZshrcFiles = openFiles({
-  paths: [
-    path.join(HOME_DIR, '.zshrc'),
-    ...getAllFilesInDir({ dirPath: path.join(HOME_DIR, 'zshrc') }),
-  ],
-  splitPane: 'left',
+registerOpenFileCommands({
+  prefix: "util:dot-atom-open",
+  paths: atomConfigPaths.local,
+})
+registerOpenFileCommands({
+  prefix: "util:dot-atom-open-my",
+  paths: atomConfigPaths.private,
+})
+registerDiffFileCommands({
+  name: 'util:diff-dot-atom-configs',
+  pathGroups: [atomConfigPaths.local, atomConfigPaths.private]
 })
 
-addCmd('atom-workspace', 'util:open-dot-zshrc-files', openDotZshrcFiles)
-
-addCmd('atom-workspace', 'util:diff-dot-zshrc-files', () => Promise.resolve('start')
-  .then(openDotZshrcFiles)
-  .then(openFiles({
-    paths: [
-      path.join(HOME_DIR, 'CloudStation/Documents/MediaTek/Mac/dot-zshrc/MY.zshrc'),
-      ...getAllFilesInDir({ dirPath: path.join(HOME_DIR, 'CloudStation/Documents/MediaTek/Mac/dot-zshrc/zshrc') }),
-    ],
-    splitPane: 'left',
-  }))
-)
-
-const openDotHyperFiles = openFiles({
-  paths: [path.join(HOME_DIR, '.hyper.js')],
-  splitPane: 'left',
+registerOpenFileCommands({
+  prefix: 'util:dot-zshrc-open',
+  paths: zshConfigPaths.local,
+})
+registerOpenFileCommands({
+  prefix: "util:dot-zshrc-open-my",
+  paths: zshConfigPaths.private,
+})
+registerDiffFileCommands({
+  name: 'util:diff-dot-zshrc-files',
+  pathGroups: [zshConfigPaths.local, zshConfigPaths.private],
 })
 
-addCmd('atom-workspace', 'util:open-dot-hyper-files', openDotHyperFiles)
+registerDiffFileCommands({
+  name: 'util:diff-dot-hyper-files',
+  pathGroups: [hyperConfigPaths.local, hyperConfigPaths.private],
+})
 
-addCmd('atom-workspace', 'util:diff-dot-hyper-files', () => Promise.resolve('start')
-  .then(openDotHyperFiles)
-  .then(openFiles({
-    paths: [path.join(HOME_DIR, 'CloudStation/Documents/MediaTek/Mac/hyper/my.hyper.js')],
-    splitPane: 'left',
-  }))
-)
+registerDiffFileCommands({
+  name: 'util:diff-nvm-default-packages',
+  pathGroups: [nvmConfigPaths.local, nvmConfigPaths.private]
+})
 
-addCmd('atom-workspace', 'util:diff-nvm-default-packages', () => Promise.resolve('start')
-  .then(openFiles({
-    paths: [path.join(HOME_DIR, '.nvm/default-packages')],
-    splitPane: 'left',
-  }))
-  .then(openFiles({
-    paths: [path.join(HOME_DIR, 'CloudStation/Documents/MediaTek/Mac/dot-zshrc/nvm/default-packages')],
-    splitPane: 'left',
-  }))
-)
+registerDiffFileCommands({
+  name: 'util:diff-dot-tmux-files',
+  pathGroups: [tmuxConfigPaths.local, tmuxConfigPaths.private]
+})
 
-addCmd('atom-workspace', 'util:diff-dot-markdownlint-files', () => Promise.resolve('start')
-  .then(openFiles({
-    paths: [path.join(HOME_DIR, '.markdownlintrc')],
-    splitPane: 'left',
-  }))
-  .then(openFiles({
-    paths: [path.join(HOME_DIR, 'CloudStation/Documents/MediaTek/Mac/dot-markdownlint/.markdownlintrc')],
-    splitPane: 'left',
-  }))
-)
+registerOpenFileCommands({
+  prefix: "util:vscode-config-open",
+  paths: vscodeConfigPaths.local
+});
+registerOpenFileCommands({
+  prefix: "util:vscode-config-open-my",
+  paths: vscodeConfigPaths.private
+});
+registerDiffFileCommands({
+  name: "util:diff-vscode-config-files",
+  pathGroups: [vscodeConfigPaths.local, vscodeConfigPaths.private]
+});
+
+registerOpenFileCommands({
+  prefix: 'util:open-oh-my-zsh-theme-config',
+  paths: privateConfigPaths.omzThemeAgnoster,
+})
+registerOpenFileCommands({
+  prefix: 'util:open-oh-my-zsh-theme-config',
+  paths: privateConfigPaths.omzThemePowerLevel9k,
+})
+registerOpenFileCommands({ paths: privateConfigPaths.workLog })
 
 addCmd('atom-workspace', 'util:open-all-files-of-current-dir',
   requireEditor(({ editor }) => {
@@ -180,17 +173,6 @@ addCmd('atom-text-editor', 'util:react-class-based-component-template', requireE
 
 // addCmd('atom-text-editor', 'util:react-add-component-syntax', insertTextToAllSelection('<! />'))
 addCmd('atom-text-editor', 'util:react-add-component-syntax', mdInsertion`<${0} />`)
-
-addCmd('atom-workspace', 'util:open-zshrc', () => atom.workspace.open(path.join(HOME_DIR, '.zshrc')))
-addCmd('atom-workspace', 'util:open-oh-my-zsh-theme-agnoster', () => atom.workspace.open(path.join(HOME_DIR, '.oh-my-zsh/themes/Myagnoster.zsh-theme')))
-addCmd('atom-workspace', 'util:open-oh-my-zsh-theme-powerlevel9k', () => atom.workspace.open(path.join(HOME_DIR, '.oh-my-zsh/custom/themes/powerlevel9k/powerlevel9k.zsh-theme')))
-addCmd('atom-workspace', 'util:open-work_log.md', () => atom.workspace.open(path.join(HOME_DIR, 'CloudStation/Documents/MediaTek/work_log.md')))
-
-addCmd('atom-workspace', 'util:open-init-util.js', () => atom.workspace.open(path.join(HOME_DIR, '.atom/init/util.js')))
-addCmd('atom-workspace', 'util:open-init-markdown.js', () => atom.workspace.open(path.join(HOME_DIR, '.atom/init/markdown.js')))
-addCmd('atom-workspace', 'util:open-init-playground.js', () => atom.workspace.open(path.join(HOME_DIR, '.atom/init/playground.js')))
-addCmd('atom-workspace', 'util:open-init-index.js', () => atom.workspace.open(path.join(HOME_DIR, '.atom/init/index.js')))
-addCmd('atom-workspace', 'util:open-init-_util.js', () => atom.workspace.open(path.join(HOME_DIR, '.atom/init/_util.js')))
 
 // === i18n-dev util
 addCmd('atom-workspace', 'i18n-dev:open-all-menu-darwin-cson', () => i18nOpenCsonBatch('menu_darwin.cson'))

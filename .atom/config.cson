@@ -12,7 +12,7 @@
     build_after_save: false
   "atom-material-ui":
     colors:
-      abaseColor: "#f39a1e"
+      abaseColor: "#00c8c8"
     tabs:
       compactTabs: true
       noTabMinWidth: true
@@ -35,6 +35,9 @@
       "linter-flow"
       "hyperclick"
       "emmet"
+      "linter"
+      "linter-eslint"
+      "linter-stylelint"
     ]
     openEmptyEditorOnStart: false
     packagesWithKeymapsDisabled: [
@@ -57,7 +60,7 @@
     autoIndentOnPaste: false
     backUpBeforeSaving: true
     fontFamily: "Fira Code, SauceCodePro Nerd Font, Hack Nerd Font, monospace"
-    fontSize: 18
+    fontSize: 17
     invisibles: {}
     preferredLineLength: 80
     scrollPastEnd: true

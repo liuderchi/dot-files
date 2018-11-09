@@ -53,15 +53,15 @@
       export default ${1:myComponent}"""
 
   "console.log({ foo })":
-    prefix: "log(...)"
+    prefix: "console.log({ ... })"
     body: "console.log({ ${1:foo} })"
 
   "console.warn({ foo })":
-    prefix: "warn(...)"
+    prefix: "console.warn({ ... })"
     body: "console.warn({ ${1:foo} })"
 
   "console.info({ foo })":
-    prefix: "info(...)"
+    prefix: "console.info({ ... })"
     body: "console.info({ ${1:foo} })"
 
   "/*: Object */":

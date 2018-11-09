@@ -1,1 +1,3 @@
-require('./init/index');
+'use babel';
+
+import './init/index';
