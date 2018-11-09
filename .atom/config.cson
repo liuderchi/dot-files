@@ -1,0 +1,220 @@
+"*":
+  Hydrogen:
+    kernelspec: "{\"kernelspecs\":{\"python2\":{\"r\":\"/usr/local/lib/python2.7/dist-packages/ipykernel/r\",\"spec\":{\"language\":\"python\",\"display_name\":\"Python 2\",\"env\":{},\"argv\":[\"/usr/bin/python\",\"-m\",\"ipykernel\",\"-f\",\"{connection_file}\"]}}}}"
+  "atom-i18n":
+    customMenuI18nPath: "/home/derek/atom-i18n/def/custom_menu.cson"
+    locale: "zh-tw"
+  "atom-ide-ui":
+    "atom-ide-diagnostics-ui":
+      autoVisibility: true
+    use: {}
+  "atom-latex":
+    build_after_save: false
+  "atom-material-ui":
+    colors:
+      abaseColor: "#f39a1e"
+    tabs:
+      compactTabs: true
+      noTabMinWidth: true
+    ui:
+      panelContrast: true
+  "autocomplete-python":
+    useKite: false
+  "bracket-matcher":
+    highlightMatchingLineNumber: true
+  "color-picker":
+    abbreviateValues: true
+  core:
+    allowPendingPaneItems: false
+    autoHideMenuBar: true
+    automaticallyUpdate: false
+    debugLSP: true
+    disabledPackages: [
+      "ide-typescript"
+      "linter-ui-default"
+      "linter-flow"
+      "hyperclick"
+      "emmet"
+    ]
+    openEmptyEditorOnStart: false
+    packagesWithKeymapsDisabled: [
+      "ctrl-dir-scroll"
+      "hey-pane"
+    ]
+    restorePreviousWindowsOnStart: "always"
+    telemetryConsent: "limited"
+    themes: [
+      "atom-material-ui"
+      "atom-material-syntax-dark"
+    ]
+    titleBar: "hidden"
+    uriHandlerRegistration: "always"
+    useTreeSitterParsers: true
+  "document-outline":
+    highlightCurrentSection: false
+    showByDefault: false
+  editor:
+    autoIndentOnPaste: false
+    backUpBeforeSaving: true
+    fontFamily: "Fira Code, SauceCodePro Nerd Font, Hack Nerd Font, monospace"
+    fontSize: 18
+    invisibles: {}
+    preferredLineLength: 80
+    scrollPastEnd: true
+    showInvisibles: true
+    showLineNumbers: false
+    softWrap: false
+    tabLength: 4
+    tabType: "soft"
+  emmet: {}
+  "exception-reporting":
+    userId: "ec415227-c08d-41dc-1c87-addaf12f2665"
+  "find-and-replace":
+    autocompleteSearches: true
+  "git-blame":
+    columnWidth: 298
+  "git-diff":
+    showIconsInEditorGutter: true
+  "ide-flowtype":
+    tryFlowBin: true
+  "ide-typescript":
+    diagnosticsEnabled: false
+  latex:
+    engine: "xelatex"
+    outputFormat: "dvi"
+    producer: "xdvipdfmx"
+    texPath: "/usr/bin/xelatex"
+  "linter-eslint":
+    disableWhenNoEslintConfig: true
+  "linter-flow": {}
+  "linter-jshint": {}
+  "linter-pycodestyle": {}
+  "linter-ui-default":
+    panelHeight: 60
+  "markdown-preview":
+    liveUpdate: false
+    useGitHubStyle: true
+  "markdown-preview-enhanced":
+    liveUpdate: false
+    mathRenderingOption: "MathJax"
+    openPreviewPaneAutomatically: false
+  minimap:
+    autoToggle: false
+  "node-debugger":
+    nodePath: "/usr/bin/node"
+  nuclide:
+    "nuclide-home":
+      showHome: false
+  pigments: {}
+  "prettier-atom":
+    formatOnSaveOptions:
+      enabled: true
+      isDisabledIfNoConfigFile: true
+      showInStatusBar: true
+    prettierOptions:
+      singleQuote: true
+      trailingComma: "all"
+  "project-plus":
+    showPath: true
+  "python-autopep8":
+    maxLineLength: 80
+  "quick-highlight":
+    decorate: "box"
+  "split-diff":
+    diffWords: true
+    leftEditorColor: "red"
+    rightEditorColor: "green"
+    scrollSyncType: "Vertical + Horizontal"
+    syncHorizontalScroll: true
+  tabs:
+    enableVcsColoring: true
+    usePreviewTabs: false
+  "tool-bar":
+    iconSize: "24px"
+    position: "Bottom"
+  "tree-view":
+    hideVcsIgnoredFiles: false
+  welcome:
+    showOnStartup: false
+  whitespace:
+    ignoreWhitespaceOnCurrentLine: true
+    keepMarkdownLineBreakWhitespace: false
+    removeTrailingWhitespace: true
+".Makefile.makefile":
+  tabType: "hard"
+".angular.html.text":
+  editor:
+    preferredLineLength: 79
+".babel.regexp.source":
+  editor:
+    preferredLineLength: 79
+".basic.html.text":
+  editor:
+    tabLength: 2
+".breakpoints.hydrogen":
+  editor:
+    preferredLineLength: 79
+    tabLength: 4
+".c.source":
+  editor:
+    softWrap: false
+    tabLength: 4
+".coffee.jsx.source":
+  editor:
+    preferredLineLength: 79
+".coffee.source":
+  editor:
+    autoIndent: false
+    softWrap: false
+    tabLength: 2
+".css.less.source":
+  editor:
+    tabLength: 2
+".css.source":
+  editor:
+    tabLength: 2
+".gfm.source":
+  editor:
+    autoIndent: false
+    preferredLineLength: 100
+    showIndentGuide: false
+    showInvisibles: false
+    softWrap: true
+    tabLength: 2
+".graphql.source":
+  editor:
+    tabLength: 2
+".html.jsp.text":
+  editor:
+    preferredLineLength: 79
+".html.text":
+  editor:
+    softWrap: false
+    tabLength: 2
+".js.jsx.source":
+  editor:
+    softWrap: false
+    tabLength: 2
+".js.source":
+  editor:
+    softWrap: false
+    tabLength: 2
+".json.source":
+  editor:
+    softWrap: false
+    tabLength: 2
+".python.source":
+  editor:
+    tabLength: 4
+".shell.source":
+  editor:
+    tabLength: 2
+".source.ts":
+  editor:
+    preferredLineLength: 79
+".source.tsx":
+  editor:
+    preferredLineLength: 79
+".source.yaml":
+  editor:
+    tabLength: 2

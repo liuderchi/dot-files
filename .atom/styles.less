@@ -1,0 +1,468 @@
+/* IMPORTS, VARS*/
+
+@import "ui-variables";
+@import "syntax-variables";
+// usage: http://flight-manual.atom.io/hacking-atom/sections/creating-a-theme/#use-in-packages
+
+// NOTE this is best with *Atom Material* UI-Theme and *Atom Material Dark* Syntax Theme
+// NOTE policy of unit: text -> rem, line -> px
+// @font-size: 11px (1rem)
+// NOTE how to mix em plus px in less? cannot use calc()
+
+
+// === === === === === === === === === ===  TREE VIEW  === === === === === === === === === ===
+
+@_treeViewFontSize: 0.8rem;
+@_treeViewFontSizeHovered: @_treeViewFontSize + 0.4rem;
+
+// animation of file entry, folder entry
+._hover-item-animation(@hoverOnTransTime, @hoverOffTransTime) {
+  li.file, .header.list-item {
+    transition: padding @hoverOffTransTime, font-size @hoverOffTransTime;
+    padding: 0;
+    &:hover {
+      transition: padding @hoverOnTransTime, font-size @hoverOnTransTime;
+      padding: 1.4rem 0;
+      font-size: @_treeViewFontSizeHovered;
+    }
+  }
+}
+
+.tree-view {  // hover on item
+  font-size: @_treeViewFontSize;
+  span.icon:before {
+    margin-right: 1rem;
+  }
+  // ._hover-item-animation(1s, 3s);
+}
+
+._enable-tree-view-mouse-hover(@onTransTime, @offTransTime) {
+  // from https://discuss.atom.io/t/hover-sidebar-for-folder-view-to-help-with-long-tree-nesting/14434/4
+  min-width: 0.5rem!important;
+  max-width: 0.5rem;
+  transition: max-width @offTransTime;
+
+  &:hover {
+    transition: max-width @onTransTime;
+    max-width: 1000rem;
+  }
+}
+
+.tree-view-resizer {  // adaptive width
+  // width: auto!important;                 // OPT 1
+  // ._enable-tree-view-mouse-hover(3s, 3s);   // OPT 2
+}
+
+// === === === === === === === === === === FIND AND REPLACE === === === === === === === === === ===
+
+@_projFindResFontSize: 1rem;
+@_projFindResFontSizeLarge: @_projFindResFontSize + 0.2rem;
+
+._applyFontShorthand(@fz:@_projFindResFontSize, @fw:300){
+  font-size: @fz; font-weight: @fw;
+}
+
+.preview-header {  // search result summary
+  ._applyFontShorthand(@_projFindResFontSizeLarge);
+  font-weight: 300!important;
+
+  span.highlight-info {
+    ._applyFontShorthand();
+  }
+
+  .btn-group:nth-of-type(3) {
+    @import "octicon-utf-codes";
+    button.btn:first-of-type {  // collapse all button
+      // &::before {  content: "\F066\ ";  }  // fa-compress
+      // @import "octicon-mixins";  .octicon("fold");  // NOTE icon without trailing space
+      &::before {
+        ._applyFontShorthand(@_projFindResFontSizeLarge);
+        font-family: 'Octicons Regular'; content: @fold + " ";
+      }
+    }
+    button.btn:nth-of-type(2) {  // expand all button
+      // &::before {  content: "\F065\ ";  }  // fa-expand
+      &::before {
+        ._applyFontShorthand(@_projFindResFontSizeLarge);
+        font-family: 'Octicons Regular'; content: @unfold + " ";
+      }
+    }
+  }
+}
+
+.results-view {
+  li.path {   // path
+    .path-details {
+      ._applyFontShorthand();
+      span.path-match-number {  // match count
+        font-size: @_projFindResFontSizeLarge;
+      }
+    }
+    ol.matches {}
+  }
+}
+
+// === === === === === === === === === === SETTING PAGE === === === === === === === === === ===
+
+.settings-view {
+  font-size: 0.8rem;
+}
+
+// === === === === === === === === === === TAB TITLE === === === === === === === === === ===
+
+.tab-bar .tab {
+  .title {
+    font-size: @font-size * 1.2;
+    &.icon:before {
+      margin-right: 0.4rem!important;
+    }
+  }
+  &.active { }
+}
+
+// === === === === === === === === === === STATUS BAR === === === === === === === === === ===
+
+status-bar { // footer status bar
+  status-bar-launch-mode {  // if in DEV mode (v1.15)
+    color: @background-color-warning!important;
+    &::after{ content: "DEV"; }
+  }
+
+  encoding-selector-status {
+    a:not([data-encoding="utf8"]) { color: @text-color-warning; }
+    a[data-encoding="utf8"] { color: @text-color-subtle; }
+  }
+
+}
+
+// === === === === === === === === === === TEXT EDITOR === === === === === === === === === ===
+
+@_atomGreen: #5fb57d;
+@_androidBrand: #a4c639;
+
+@_brandColors:
+  // #5fb57d,   // atom editor
+  // #ff9900,   // amazon
+  // #a4c639,   // android
+  // #3b5998,   // fb
+  // #f7df1e,   // js
+  // #00ab6c,   // medium
+  // #f39a1e,   // mtk
+  // #cc0000,   // tesla
+  // #dd4814,   // ubuntu
+  // #1da1f2,   // twitter
+  #00dddd,   // kp
+  #00dddd   // should at least two
+  ;
+
+@_brandColorCount: length(@_brandColors);
+@_randomGen: `(function(){
+  // delete this.oneTimeRand;
+  if(!this.oneTimeRand) { this.oneTimeRand = Math.ceil(Math.random() * (@{_brandColorCount})) }
+  return this.oneTimeRand
+})()`;  // NOTE run random number only once  https://www.bennadel.com/blog/2638-executing-javascript-in-the-less-css-precompiler.htm
+
+// NOTE if do @_randomGen: `Math.ceil(Math.random() * (@{_brandColorCount}))`
+// each time @_randomGen is evaluated with randomness
+@_themeColor: extract(@_brandColors, @_randomGen);
+
+// TODO try to return a `less` color in js space
+// @_themeColor: `...`
+
+@_listItemRed: #ff869a;
+
+atom-text-editor.editor {
+  &.is-focused {
+    // NOTE 3d rotate star wars style
+
+    // NOTE FAIL
+    // transform-style: preserve-3d;
+    // transform-origin: 50% 0%;
+    // transform-style: preserve-3d;
+    // transform: rotateX(10deg);
+
+    // TODO add following style in init.js
+    // this works when adding in devtool
+    // transform: perspective(1000px) rotateX(45deg);
+    // background-color: fade(@_themeColor, 1%)!important ;
+
+    // NOTE subtle highlight for focused editor
+    // border-left: fade(@_themeColor, 20%) 1px solid;
+    // NOTE border? gradient background?
+    // TODO breath light transition effect
+  }
+
+  .line.cursor-line {
+    // background-color: fade(#1b1b1b, 40%);  // NOTE atom-material-dark syntax theme: don't overlay the style from quick-highlight
+    background-color: fade(@_themeColor, 10%);
+    // TODO light sword effect   https://codepen.io/CreativeJuiz/pen/jGgIo
+  }
+
+  ._cursorBlink(@enable) when (@enable = true) { transition: opacity 1.8s; }
+  ._cursorBlink(@enable) when (@enable = false) { opacity: 1 !important; }
+  .cursor {
+    border-color: fadeout(@_themeColor, 50%);
+    border-width: @font-size / 1.2; // NOTE alt: dynamic cursor width set in init.js
+    ._cursorBlink(false);
+  }
+
+  .fold-marker {  // folded code
+    ._fold-marker-set-content(@content, @color) {
+      &::after {
+        content: @content;
+        color: @color;
+        font-size: 1rem;
+      }
+    }
+    ._fold-marker-add-bottom-border(@color) {
+      &::before {
+        content: "";
+        display: block;
+        position: absolute;
+        left: 0;
+        right: 0;
+        border-bottom: 1px dashed @color;
+      }
+    }
+    ._fold-marker-add-bottom-border(@syntax-invisible-character-color);
+    ._fold-marker-set-content("💬", @text-color-success); // candidate: font-awesome U2026 "…", "\F101", "\F141", "\F149", "💬"
+  }
+
+  ._markdown-add-bottom-border(@borderWidth, @borderStyle) { // markdown heading, hr
+    &::after {
+      content: "";
+      display: block;
+      position: absolute;
+      left: 0;
+      right: 0;
+      border-bottom: @borderWidth @borderStyle;
+    }
+  }
+
+  .linkText(@color: @_listItemRed, @spacing:-0.1em, @textDecoration: underline) {
+    color: @color;
+    font-style: italic;
+    letter-spacing: @spacing;
+    text-decoration: @textDecoration;
+  }
+
+  .lightTightText(@fw:400, @spacing:-0.08em, @color: darken(@text-color-highlight, 15)) {
+    font-weight: @fw;
+    letter-spacing: @spacing;
+    color: @color;
+  }
+
+  .syntax--text.syntax--plain {
+    .lightTightText();
+  }
+
+  .syntax--source.syntax--gfm {  // markdown text
+    // font-family: Kalam;  // NOTE rx docu style
+    // font-family: Roboto; // NOTE atom-material
+    .lightTightText();
+    .syntax--markup {
+      -webkit-font-smoothing: auto;
+      &.syntax--bold.syntax--gfm {     // bold text
+        font-weight: 500;  // bold: 700
+        color: @_themeColor;
+      }
+      &.syntax--raw {                // code text style
+        // font-family: "Fira Code";
+        letter-spacing: normal;
+        color: @_atomGreen;
+      }
+      &.syntax--strike.syntax--gfm {     // deleted by strike line
+        text-decoration: line-through;
+        color: @text-color-subtle;
+        &::after{                        // strike line
+          background-color: darken(@text-color-subtle, 70);
+        }
+      }
+      &.syntax--heading { // heading
+        color: @text-color-info;
+        &.syntax--heading-1 {
+          font-weight: 500;
+        }
+        &.syntax--heading-2 {
+          ._markdown-add-bottom-border(1px, dotted);
+        }
+        &.syntax--heading-3, &.syntax--heading-4, &.syntax--heading-5 {
+          font-style: italic;
+          border-bottom: 1px dotted;
+        }
+      }
+      &.syntax--underline.syntax--link.syntax--hyperlink {
+        .linkText();
+      }
+    }
+    .syntax--variable.syntax--list {     // list item
+      &.syntax--ordered {
+        color: fade(@_androidBrand, 100);  // @_listItemRed;
+        font-style: italic;
+        letter-spacing: -0.1em;
+      }
+      &.syntax--unordered {
+        color: fade(@_androidBrand, 60);
+      }
+    }
+    .syntax--link {                    // link
+      .syntax--punctuation.syntax--definition.syntax--gfm {
+        color: @text-color-info;
+      }
+      .syntax--markup.syntax--underline.syntax--link.syntax--gfm {
+        .linkText();
+      }
+    }
+    .syntax--comment {
+      &.syntax--hr {      // horizontal rule
+        &::before{ content: "--------------------------------------------------------------------------------"; }
+        // &::before{ content: "                                          ⭐️          ⭐️          ⭐️                                          "; }
+        // &::before{ content: "                                          🛏          🛏          🛏                                          "; }
+      }
+      &.syntax--quote {    // quoted text
+        color: @text-color-subtle;
+      }
+      .syntax--support.syntax--quote {     // quote markdown syntax
+        color: fade(@_themeColor, 30);
+      }
+    }
+    > .syntax--comment.syntax--quote {    // quoted text:
+      // NOTE to apply only outmost `.syntax--comment` for faded color
+      font-style: italic;
+      padding: 0.1rem;
+      background-color: fade(@_themeColor, 10);
+      // border-left: 2px solid fade(@_themeColor, 60);
+      &::before { content: '    '; }
+    }
+  }
+
+  .highlights {  // highlighted text
+    .highlight-selected .region {    // selected word
+      border: 1px solid @text-color-info;
+    }
+    .current-result .region {  // when page scrolled compare with last selection
+      border: 2px solid @text-color-warning;
+    }
+    .find-result .region {     // find result
+      border: 1px solid @text-color-warning;
+    }
+    .highlight.flash .region {  // transition color when justed focused result
+      background-color: fade(#ffffff, 10%);
+    }
+  }
+}
+
+// === === === === === === === === === === 3RD PARTY PACKAGES === === === === === === === === === ===
+
+// NOTE require package file-icon: add icon to status bar
+@import "./styles_icons";   // NOTE you can split code into multiple files
+
+// linter: linter message
+linter-message.error > linter-excerpt {
+  background-color: @base-border-color;
+  font: italic 1.4rem sans-serif;
+}
+
+// indent-guide-improved: customize indent guide
+@_activeIndentGuideColor: fade(@_themeColor, 10);  //  fadein(@syntax-indent-guide-color, 20);
+.indent-guide-improved {
+  background-color: fadeout(@syntax-indent-guide-color, 3%);  // @syntax-indent-guide-color === fade(grey, 20%);
+  &.indent-guide-stack {
+    background-color: fadeout(@syntax-indent-guide-color, 9%);
+    &.indent-guide-active {
+      // 1. block style
+      width: 2px;  border: none;  background-color: @_activeIndentGuideColor;
+      // 2. dotted
+      // width: 0; border: 1px dashed @_activeIndentGuideColor; background-color: fade(black, 0);
+      // 3. light sword style
+      // TODO
+    }
+  }
+}
+
+// quick-highlight: higher priority z-index than text selection
+.quick-highlight-z-index(@name:box, @value:1) {
+  .quick-highlight.@{name}-01 .region { z-index: @value; } .quick-highlight.@{name}-02 .region { z-index: @value; } .quick-highlight.@{name}-03 .region { z-index: @value; } .quick-highlight.@{name}-04 .region { z-index: @value; }
+  .quick-highlight.@{name}-05 .region { z-index: @value; } .quick-highlight.@{name}-06 .region { z-index: @value; } .quick-highlight.@{name}-07 .region { z-index: @value; }
+}
+.quick-highlight-all-z-index(@value:1) {
+  .quick-highlight-z-index(underline, @value); .quick-highlight-z-index(box, @value); .quick-highlight-z-index(highlight, @value);
+}
+.quick-highlight-all-z-index();
+
+// === === === === === === === === === === PLAYGROUND === === === === === === === === === ===
+
+
+@toolBarSizeHidden: 1px;
+@barSizeWhenIcon12px: 30px;
+@barSizeWhenIcon16px: 38px;
+@barSizeWhenIcon24px: 54px;
+@barSizeWhenIcon32px: 70px;
+// NOTE barSize = 2*iconSize + 6px
+@transitionTime: 1000ms;
+
+.tool-bar-top, .tool-bar-bottom{
+  height: @toolBarSizeHidden;
+  transition: height @transitionTime;
+  transition-timing-function: ease;
+  &:hover {
+    height: @barSizeWhenIcon24px;
+    transition: height @transitionTime;
+    transition-timing-function: ease;
+  }
+}
+.tool-bar-left, .tool-bar-right {
+  width: @toolBarSizeHidden;
+  transition: width @transitionTime;
+  transition-timing-function: ease;
+  &:hover {
+    width: @barSizeWhenIcon24px;
+    transition: width @transitionTime;
+    transition-timing-function: ease;
+  }
+}
+
+/*
+ * markdown-preview-enhanced custom style
+ */
+.markdown-preview-enhanced-custom {
+
+  // background: @base-border-color;
+  background: @base-border-color;
+
+  h1, h2, h3, h4, h5 {
+    color: @text-color-info;
+    font-weight: bold;
+  }
+
+  li, ul, p {
+    color: @text-color;
+    strong {
+      color: @text-color-highlight;
+    }
+  }
+
+  // custom pdf output style
+  @media print {
+  }
+
+  // custom phantomjs png/jpeg export style
+  &.phantomjs-image {
+  }
+
+  //custom phantomjs pdf export style
+  &.phantomjs-pdf {
+  }
+
+  // custom presentation style
+  .preview-slides .slide,
+  &[data-presentation-mode] {
+    // eg
+    // background-color: #000;
+  }
+}
+
+// please don't modify the .markdown-preview-enhanced section below
+.markdown-preview-enhanced {
+  .markdown-preview-enhanced-custom() !important;
+}

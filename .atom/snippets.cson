@@ -1,0 +1,244 @@
+"_note": "to apply snippet require reloading atom or press ctrl-alt-r"
+
+".source":
+  "BUG":
+    prefix: "bug"
+    body: "BUG"
+  "NOTE":
+    prefix: "note"
+    body: "NOTE"
+  "TODO":
+    prefix: "todo"
+    body: "TODO"
+
+".source.js":
+  "(() => {...})()":
+    prefix: "iife"
+    body: """
+      (() => {
+
+      })()"""
+  "map(fcn(...))":
+    prefix: "mapf"
+    body: """
+      map(function($1){
+        $2
+        return ;
+      });"""
+
+  "sort(fcn(...))":
+    prefix: "sortf"
+    body: """
+      sort(function(${1:a}, ${2:b}){return $3;});"""
+
+  "it('spec', ()=>{})":
+    prefix: "it"
+    body: """
+      it('${1:spec description}', (done) => {
+        done();
+        $2
+      });"""
+
+  "import... export...":
+    prefix: "init"
+    body: """
+      import React from 'react'
+
+      const ${1:myComponent} = () => {
+        return (
+          <${2:div}></${2:div}>
+        )
+      }
+
+      export default ${1:myComponent}"""
+
+  "console.log({ foo })":
+    prefix: "log(...)"
+    body: "console.log({ ${1:foo} })"
+
+  "console.warn({ foo })":
+    prefix: "warn(...)"
+    body: "console.warn({ ${1:foo} })"
+
+  "console.info({ foo })":
+    prefix: "info(...)"
+    body: "console.info({ ${1:foo} })"
+
+  "/*: Object */":
+    prefix: "flow comment syntax"
+    body: "/*: ${1:Object} */"
+
+  "#!/usr/bin/env node":
+    prefix: "shebang"
+    body: "#!/usr/bin/env node"
+
+".source.coffee":
+  "it('msg', ()->{})":
+    prefix: "it"
+    body: """
+      it "${1:spec description}", ->
+        ${2:foo()}"""
+
+".source.java":
+  "System.out.println()":
+    prefix: "sout"
+    body: "System.out.println(${1:\"\"});$2"
+
+".source.php":
+  ".'<br>'":
+    prefix: "br"
+    body: ".'<br>'"
+
+".source.python":
+  "__init__(self)":
+    prefix: "init"
+    body: """
+      def __init__(self, ${1:arg}):
+          self.${1:arg} ="""
+
+  "if __name__ == '__main__'":
+    prefix: "ifmain"
+    body: """
+      if __name__ == '__main__':
+          ${1:foo()}"""
+
+".source.shell":
+  "for x in ...; do ... done":
+    prefix: "forin"
+    body: """
+      for ${1:x} in ${2:1 2 3}; do
+        echo $${1:x}
+      done"""
+
+  "declare -a arr=(...); for x in \"${arr[@]}\"; do ...":
+    prefix: "forinarray"
+    body: """
+      declare -a ${1:arr}=(
+        "item1" \\
+        "item2" \\
+      )
+      for ${2:x} in "$\{${1:arr}[@]\}"; do
+        echo $${2:x}
+      done"""
+
+  "#!/bin/sh ... set -e":
+    prefix: "shebang"
+    body: """
+      #!/bin/sh
+
+      set -e"""
+
+".source.gfm":
+  "":    # fa-tag \uF02B
+    prefix: "tag"
+    body: ""
+  "":    # fa-calendar \uF073
+    prefix: "date"
+    body: ""
+  "":    # fa-linux \uF17C
+    prefix: "linux"
+    body: ""
+  "":    # fa-windows \uF17A
+    prefix: "windows"
+    body: ""
+  "":    # fa-apple \uF179
+    prefix: "apple"
+    body: ""
+  "∴":     # \u2234
+    prefix: "so (therefore)"
+    body: "∴ "
+  "∵":     # \u2235
+    prefix: "bc (because)"
+    body: "∵ "
+  "✘":    # \u2718
+    prefix: "x (cross)"  # alt: ❌ emoji \u274C
+    body: "✘ "
+  "workout set":
+    prefix: "workout"
+    body: "$1 kg ${2:5} rep ${3:1} set"
+# === === emoji, http://www.endmemo.com/unicode/unicodeconverter.php
+  # tips for echo: \u: four hex digits; \U: eight hex digits
+  "✅":    # \u2705
+    prefix: "v (check)"
+    body: "✅ "
+  "☑️":    # \u2611\uFE0F, with modifier
+    prefix: "check"
+    body: "☑️ "
+  "🔲":    # \U1F532
+    prefix: "square checkbox"
+    body: "🔲 "
+  "💡":    # \U1F4A1
+    prefix: "idea (bulb)"   # alt:  fa-lightbulb-o \uf0eb
+    body: "💡 "
+  "❓":    # \u2753
+    prefix: "question ?"  # alt: fa-question \uf128
+    body: "❓ "
+  "❗":    # \u2757
+    prefix: "exclamation !"
+    body: "❗ "
+  "⚠️":    # \u26A0
+    prefix: "warning"
+    body: "⚠️ "
+  "📌":    # \U1F4CC
+    prefix: "pin"
+    body: "📌 "
+  "🔖":    # bookmark \U1F516
+    prefix: "tag"
+    body: "🔖"
+  "📅":    # \U1F4C5
+    prefix: "calendar"
+    body: "📅"
+  "🐧":    # \U1F427
+    prefix: "linux"
+    body: "🐧"
+  "🏁":    # \U1F3C1
+    prefix: "windows"
+    body: "🏁"
+  "🍎":    # \U1F34E
+    prefix: "apple"
+    body: "🍎"
+  "👍":    # \U1F44D
+    prefix: "like"
+    body: "👍 "
+  "⭐️":    # \u2B50\uFE0F, white medium star \u2B50
+    prefix: "star"
+    body: "⭐️ "
+  "📘":    # blue_book \U1F4D8  📕 📗 📙 📔 📚 📖
+    prefix: "note"
+    body: "📘 "
+  "💯":    # hundred points \U1F4AF
+    prefix: "100"
+    body: "💯 "
+  "🎉":    # party popper \U1F389
+    prefix: "tada"
+    body: "🎉 "
+  "0️⃣" :    # \u30\uFE0F\u20E3
+    prefix: "0"
+    body: "0️⃣ "
+  "1️⃣" :    # \u31\uFE0F\u20E3
+    prefix: "1"
+    body: "1️⃣ "
+  "2️⃣" :    # \u32\uFE0F\u20E3
+    prefix: "2"
+    body: "2️⃣ "
+  "3️⃣" :    # \u33\uFE0F\u20E3
+    prefix: "3"
+    body: "3️⃣ "
+  "4️⃣" :    # \u34\uFE0F\u20E3
+    prefix: "4"
+    body: "4️⃣ "
+  "5️⃣" :    # \u35\uFE0F\u20E3
+    prefix: "5"
+    body: "5️⃣ "
+  "6️⃣" :    # \u36\uFE0F\u20E3
+    prefix: "6"
+    body: "6️⃣ "
+  "7️⃣" :    # \u37\uFE0F\u20E3
+    prefix: "7"
+    body: "7️⃣ "
+  "8️⃣" :    # \u38\uFE0F\u20E3
+    prefix: "8"
+    body: "8️⃣ "
+  "9️⃣" :    # \u38\uFE0F\u20E3
+    prefix: "9"
+    body: "9️⃣ "

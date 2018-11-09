@@ -1,0 +1,116 @@
+// add icon before grammar in status bar
+// it's imported by styles.less by atom
+// it's using atom package: file-icon
+
+// NOTE should be located in same directory as style.less
+
+@import 'packages/file-icons/styles/icons'; // to use the defined icons
+// NOTE icon color ref: packages/file-icons/styles/file-icons
+
+status-bar grammar-selector-status {
+  // ⚠️ content of CSS: unicode is CASE SENSITIVE
+  // NOTE customize some icon to add space after icon
+
+  // grammar-selector-status a[data-grammar="C"] { &::before{ .c-icon; } }  // file-icons: .c-icon;
+  a[data-grammar*='CoffeeScript'] {
+    &::before {
+      .fa;
+      content: '\f0f4\ '; // .coffee-icon;
+      // .medium-maroon;
+    }
+  }
+  a[data-grammar='CSS'],
+  a[data-grammar='Less'] {
+    &::before {
+      .fa;
+      content: '\f13c\ '; // .css3-icon
+      // .dark-blue;
+      // .medium-blue;
+    }
+  }
+
+  a[data-grammar='GitHub Markdown'] {
+    &::before {
+      .octicons;
+      content: '\f0c9\ '; // .markdown-icon;
+      // .medium-blue;
+    }
+  }
+  a[data-grammar*='HTML'] {
+    &::before {
+      .fa;
+      content: '\F13B\ '; // .html5-icon;
+      // .medium-orange;
+    }
+  }
+
+  a[data-grammar='JavaScript'] {
+    &::before {
+      .mf;
+      content: '\F129\ ';
+      top: 1px;
+      font-size: 14px; // js-icon
+    }
+  }
+  a[data-grammar='JavaScript (JSX)'] {
+    &::before {
+      .fi;
+      content: '\E9E6\ ';
+      top: 1px;
+      font-size: 14px; // jsx-icon
+    }
+  }
+  a[data-grammar='Java'] {
+    &::before {
+      .mf;
+      content: '\F126\ ';
+      top: 2px;
+      font-size: 16px; // java-icon
+    }
+  }
+  a[data-grammar='JSON'],
+  a[data-grammar='YAML'] {
+    &::before {
+      .mf;
+      content: '\F10E\ ';
+      top: 1px; // sql-icon
+      // .medium-yellow;
+    }
+  }
+  a[data-grammar='Python'] {
+    &::before {
+      .mf;
+      content: '\F14C';
+      top: 1px; // python-icon
+      // .dark-blue;
+    }
+  }
+  a[data-grammar='Sass'],
+  a[data-grammar='SCSS'] {
+    &::before {
+      .devicons;
+      content: '\E64B'; // .sass-icon
+      // .dark-pink;
+      // .medium-pink;
+    }
+  }
+  a[data-grammar='Shell Script'] {
+    &::before {
+      .fi;
+      content: '\F0C8\ ';
+      font-size: 14px; // .terminal-icon;
+      // .auto(yellow);
+    }
+  }
+}
+
+// NOTE snippet from package file-icons
+/*
+@import "packages/file-icons/styles/colors"; // to use the colours
+@import "packages/file-icons/styles/icons";  // to use the defined icons
+@import "packages/file-icons/styles/items";  // for pane-tab-selector
+@{pane-tab-selector}, .icon-file-text {
+  &[data-name$=".rb"]          { .medium-red;             } // Colours icon and filename
+  &[data-name$=".rb"]:before   { .ruby-icon; .medium-red; } // Colours icon only
+}
+*/
