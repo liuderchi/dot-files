@@ -1,0 +1,12 @@
+# 2017-07-07 yarn
+alias ya='yarn'
+alias yai='yarn install'
+alias yainolock='yarn install --no-lockfile'
+alias yaipure='yarn install --pure-lockfile'
+alias yaifrozlo='yarn install --frozen-lockfile'
+alias yarun='yarn run'
+alias yaa='yarn add'
+alias yaad='yarn add --dev'
+alias yaupg='yarn upgrade'
+alias yaupglatest='yarn upgrade --latest'
+alias yacc='yarn cache clean'
