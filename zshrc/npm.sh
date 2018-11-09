@@ -10,6 +10,7 @@ alias npunlink='npm unlink'
 alias npod='npm outdated'
 alias nprun='npm run'
 alias npv='npm version'
+alias npra='npm-run-all'
 npGlobalDep() { echo $(nplg | sed 1d | cut -d\  -f2 | cut -d@ -f1) }
 npruni() {
     # npi TODO interactive `npm run foo` prompt powered by ipt
@@ -18,3 +19,11 @@ npruni() {
 }
 npmlgrep() { npm list --depth=0 2>/dev/null | grep ${1:-''} }
 catPackageGrep() { cat package.json | grep ${1:-''} }
+# require npm i -g fx
+cpfx() {
+  if [ -z "$1" ]; then cat package.json | fx
+  else; cat package.json | fx ."$1"; fi
+}
+catPackageDep() { cpfx dependencies }
+catPackageDevDep() { cpfx devDependencies }
+catPackageScrips() { cpfx scripts }
