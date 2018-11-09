@@ -172,6 +172,8 @@ status-bar { // footer status bar
 @_listItemRed: #ff869a;
 
 atom-text-editor.editor {
+  --editor-line-height: 1.8em; // default 1.5em;
+
   &.is-focused {
     // NOTE 3d rotate star wars style
 
@@ -254,6 +256,10 @@ atom-text-editor.editor {
 
   .syntax--text.syntax--plain {
     .lightTightText();
+  }
+
+  .syntax--source.syntax--js {
+    letter-spacing: -0.02em;
   }
 
   .syntax--source.syntax--gfm {  // markdown text
