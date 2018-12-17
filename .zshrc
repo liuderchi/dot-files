@@ -233,3 +233,11 @@ vsunlink() {
   if [ -z "$1" ]; then echo 'vsunlink: should specify extension name'; return 1; fi
   rm -rf $HOME/.vscode/extensions/$1
 }
+
+# npm-check-update
+alias ncuu='ncu -u'
+alias ncuua='ncu -ua'
+
+alias ft='flow-typed'
+alias fti='flow-typed install'
+alias ftu='flow-typed update'

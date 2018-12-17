@@ -90,5 +90,4 @@ gsyncRebase() { gco $1 && grbonto upstream/${1:-$(gcurrentbranch)} HEAD && gp or
 gRepoName() { basename -s .git $(git config --get remote.origin.url) }
 gIgnoreCheck() { git check-ignore -v * }  # who ignore my file?
 
-# export GIT_EDITOR='atom-beta --wait'  # 'atom --wait'
-export GIT_EDITOR='atom --wait'
+export GIT_EDITOR='code --wait'
