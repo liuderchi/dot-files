@@ -13,6 +13,9 @@
   "activationEvents": [
     "onCommand:extension.md.insertInitTemplate",
     "onCommand:extension.md.insertToday",
+    "onCommand:extension.md.insertWorkdayCount",
+    "onCommand:extension.md.insertWipProgress",
+    "onCommand:extension.md.updateWipProgress",
     "onCommand:extension.util.insertFunctionalComponent"
   ],
   "main": "./out/main",
@@ -25,6 +28,18 @@
       {
         "command": "extension.md.insertToday",
         "title": "Markdown: Insert Today"
+      },
+      {
+        "command": "extension.md.insertWorkdayCount",
+        "title": "Markdown: Insert Workday Count"
+      },
+      {
+        "command": "extension.md.insertWipProgress",
+        "title": "Markdown: Insert WIP Progress"
+      },
+      {
+        "command": "extension.md.updateWipProgress",
+        "title": "Markdown: Update WIP Progress"
       },
       {
         "command": "extension.util.insertFunctionalComponent",

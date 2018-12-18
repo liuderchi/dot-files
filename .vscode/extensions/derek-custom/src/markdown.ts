@@ -6,20 +6,59 @@ import {
   getYearMonthDay,
   withWarningMessage,
   withActiveEditor,
+  jumpToSearchMatch,
+  replaceCurrentLine,
 } from './_util';
+import { EditorOp } from './types';
 
-const insertInitTemplate = ({ editor }: { editor: any }) => {
+const insertInitTemplate: EditorOp = ({ editor }) => {
   const fileNameCap = getFileNameCap(editor.document.fileName);
   const [year, month, day] = getYearMonthDay();
   const template = `# ${fileNameCap}\n\n## Date\n\n- ${year}-${month}-${day}\n\n## Description\n\n-\n__WIP ${year}-${month}-${day}__\n`;
-  editor.edit((edit: string) => edit.replace(editor.selection, template));
+  editor.edit((edit: vscode.TextEditorEdit) =>
+    edit.replace(editor.selection, template),
+  );
 };
 
-const insertToday = ({ editor }: { editor: any }) => {
+const insertToday: EditorOp = ({ editor }) => {
   const [year, month, day] = getYearMonthDay();
-  editor.edit((edit: string) =>
+  editor.edit((edit: vscode.TextEditorEdit) =>
     edit.replace(editor.selection, `${year}-${month}-${day}`),
   );
+};
+
+const insertWorkdayCount: EditorOp = ({ editor }) => {
+  const onBoardDay = new Date('2017-06-26');
+  const dayCount = Math.ceil(
+    (new Date().getTime() - onBoardDay.getTime()) / (86400 * 1000),
+  );
+  // @ts-ignore
+  const [_, month, day] = getYearMonthDay();
+  editor.edit((edit: vscode.TextEditorEdit) =>
+    edit.replace(editor.selection, `d${dayCount}-${month}-${day}`),
+  );
+};
+
+const insertWipProgress: EditorOp = ({ editor }): void => {
+  const [year, month, day] = getYearMonthDay();
+  const template = `__WIP ${year}-${month}-${day}__`;
+  editor.edit((edit: vscode.TextEditorEdit) =>
+    edit.replace(editor.selection, template),
+  );
+};
+
+const updateWipProgress: EditorOp = ({ editor }): void => {
+  const [year, month, day] = getYearMonthDay();
+  jumpToSearchMatch({
+    regex: /(__|\*\*)WIP \d{4}-\d{2}-\d{2}/g,
+    offset: 16,
+    editor,
+  });
+  replaceCurrentLine({
+    regex: /\d{4}-\d{2}-\d{2}/,
+    str: `${year}-${month}-${day}`,
+    editor,
+  });
 };
 
 export default [
@@ -30,5 +69,17 @@ export default [
   vscode.commands.registerCommand(
     'extension.md.insertToday',
     withWarningMessage(withActiveEditor(insertToday)),
+  ),
+  vscode.commands.registerCommand(
+    'extension.md.insertWorkdayCount',
+    withWarningMessage(withActiveEditor(insertWorkdayCount)),
+  ),
+  vscode.commands.registerCommand(
+    'extension.md.insertWipProgress',
+    withWarningMessage(withActiveEditor(insertWipProgress)),
+  ),
+  vscode.commands.registerCommand(
+    'extension.md.updateWipProgress',
+    withWarningMessage(withActiveEditor(updateWipProgress)),
   ),
 ];
