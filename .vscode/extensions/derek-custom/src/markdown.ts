@@ -6,8 +6,10 @@ import {
   getYearMonthDay,
   withWarningMessage,
   withActiveEditor,
+  withSuccessCheck,
   jumpToSearchMatch,
   replaceCurrentLine,
+  setCursorToSelectionEnd,
 } from './_util';
 import { EditorOp } from './types';
 
@@ -15,16 +17,20 @@ const insertInitTemplate: EditorOp = ({ editor }) => {
   const fileNameCap = getFileNameCap(editor.document.fileName);
   const [year, month, day] = getYearMonthDay();
   const template = `# ${fileNameCap}\n\n## Date\n\n- ${year}-${month}-${day}\n\n## Description\n\n-\n__WIP ${year}-${month}-${day}__\n`;
-  editor.edit((edit: vscode.TextEditorEdit) =>
-    edit.replace(editor.selection, template),
-  );
+  editor
+    .edit((edit: vscode.TextEditorEdit) =>
+      edit.replace(editor.selection, template),
+    )
+    .then(withSuccessCheck(setCursorToSelectionEnd, editor));
 };
 
 const insertToday: EditorOp = ({ editor }) => {
   const [year, month, day] = getYearMonthDay();
-  editor.edit((edit: vscode.TextEditorEdit) =>
-    edit.replace(editor.selection, `${year}-${month}-${day}`),
-  );
+  editor
+    .edit((edit: vscode.TextEditorEdit) =>
+      edit.replace(editor.selection, `${year}-${month}-${day}`),
+    )
+    .then(withSuccessCheck(setCursorToSelectionEnd, editor));
 };
 
 const insertWorkdayCount: EditorOp = ({ editor }) => {
@@ -34,17 +40,21 @@ const insertWorkdayCount: EditorOp = ({ editor }) => {
   );
   // @ts-ignore
   const [_, month, day] = getYearMonthDay();
-  editor.edit((edit: vscode.TextEditorEdit) =>
-    edit.replace(editor.selection, `d${dayCount}-${month}-${day}`),
-  );
+  editor
+    .edit((edit: vscode.TextEditorEdit) =>
+      edit.replace(editor.selection, `d${dayCount}-${month}-${day}`),
+    )
+    .then(withSuccessCheck(setCursorToSelectionEnd, editor));
 };
 
 const insertWipProgress: EditorOp = ({ editor }): void => {
   const [year, month, day] = getYearMonthDay();
   const template = `__WIP ${year}-${month}-${day}__`;
-  editor.edit((edit: vscode.TextEditorEdit) =>
-    edit.replace(editor.selection, template),
-  );
+  editor
+    .edit((edit: vscode.TextEditorEdit) =>
+      edit.replace(editor.selection, template),
+    )
+    .then(withSuccessCheck(setCursorToSelectionEnd, editor));
 };
 
 const updateWipProgress: EditorOp = ({ editor }): void => {

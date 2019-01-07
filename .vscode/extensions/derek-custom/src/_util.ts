@@ -47,6 +47,14 @@ export const withActiveEditor = (f: Function) => () => {
   f({ editor });
 };
 
+export const withSuccessCheck = (f: Function, ...args: any[]) => (
+  success: boolean,
+): any => {
+  if (success) {
+    return f(...args);
+  }
+};
+
 export const getCurrentLine = (editor: vscode.TextEditor): vscode.TextLine => {
   const currentLineNum = editor.selection.start.line; // start from zero
   return editor.document.lineAt(currentLineNum);
@@ -91,4 +99,14 @@ export const replaceCurrentLine: TypeReplaceCurrentLine = ({
     const { text, range } = getCurrentLine(editor);
     edit.replace(range, text.replace(regex, str));
   });
+};
+
+export const setCursorToSelectionStart = (editor: vscode.TextEditor): void => {
+  const { start } = editor.selection;
+  editor.selection = new vscode.Selection(start, start);
+};
+
+export const setCursorToSelectionEnd = (editor: vscode.TextEditor): void => {
+  const { end } = editor.selection;
+  editor.selection = new vscode.Selection(end, end);
 };
