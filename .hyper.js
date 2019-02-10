@@ -11,7 +11,8 @@
 const ENABLE_POKEMON = false;
 const mtkBrandColor = 'rgba(243, 154, 30, 0.5)';
 const mediumBrandColor = 'rgb(0, 171, 108)';
-const defaultTabTitleColor = 'rgb(204, 204, 204)';
+const tabTitleColorDefault = 'rgba(204, 204, 204, 0.7)';
+const tabTitleColorActive = 'rgb(204, 204, 204)';
 const backgroundOpacity = 0.8;
 
 const blinkWhenTabHasActitivy = ({ color } = {}) => `
@@ -65,7 +66,7 @@ const showBottomStripe = ({ color }) => `
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 2px;
+  height: 1px;
   background: ${color || 'gold'};
 `;
 const showBottomStripeOnTabActive = ({ color } = {}) => `
@@ -106,6 +107,12 @@ module.exports = {
     // font weight for bold characters: 'normal' or 'bold'
     fontWeightBold: 'bold',
 
+    // line height as a relative unit
+    lineHeight: 1.2,
+
+    // letter spacing as a relative unit
+    letterSpacing: -0.5,
+
     // terminal cursor background color and opacity (hex, rgb, hsl, hsv, hwb or cmyk)
     cursorColor: mtkBrandColor,
 
@@ -123,8 +130,9 @@ module.exports = {
 
     // terminal background color
     // opacity is only supported on macOS
-    backgroundColor: 'rgba(26, 26, 26, 1)',
-    // NOTE leads to autocomplete selected option text hidden if opacity < 1
+    // backgroundColor: `rgba(26, 26, 26, ${backgroundOpacity})`,
+    backgroundColor: `rgba(26, 26, 26, 1)`,
+    // NOTE (before v2.1) leads to autocomplete selected option text hidden if opacity < 1
 
     // terminal selection color
     selectionColor: 'rgba(193, 222, 255, 0.3)',
@@ -141,14 +149,15 @@ module.exports = {
       header > nav.tabs_nav {
         & > .tabs_title {
           font-size: 0.9rem;
-          color: ${defaultTabTitleColor};
+          color: ${tabTitleColorDefault};
           &::after {
             ${ENABLE_POKEMON ? '' : showBottomStripe({ color: mediumBrandColor })}
           }
         }
         & > ul > li {
-          font-size: 0.9rem;
-          ${setTabColorWhenActive(defaultTabTitleColor)}
+          font-size: 0.8rem;
+          color: ${tabTitleColorDefault};
+          ${setTabColorWhenActive(tabTitleColorActive)}
           ${ENABLE_POKEMON ? 'background-color: transparent!important;' : ''}
           ${
             ENABLE_POKEMON
@@ -187,10 +196,12 @@ module.exports = {
     // an array here instead of a color map object
     colors: {
       // NOTE customized iTerm2 TangoDark theme
-      black: `rgba(26, 26, 26, ${backgroundOpacity - 0.3})`,
+      // black: `rgba(26, 26, 26, ${backgroundOpacity - 0.5})`,
+      black: `rgba(26, 26, 26, 1)`,  // for invert display
       red: 'rgba(216, 30, 0, 1)',
       green: 'rgba(94, 167, 2, 1)',
-      yellow: 'rgba(207, 174, 0, 1)',
+      // yellow: 'rgba(207, 174, 0, 1)',
+      yellow: 'rgba(255, 193, 0, 1)',
       blue: 'rgba(66, 122, 179, 1)',
       magenta: 'rgba(137, 101, 142, 1)',
       cyan: 'rgba(0, 167, 170, 1)',
@@ -221,7 +232,7 @@ module.exports = {
     //
     // PowerShell on Windows
     // - Example: `C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe`
-    shell: '',
+    shell: 'zsh',
 
     // for setting shell arguments (i.e. for using interactive shellArgs: `['-i']`)
     // by default `['--login']` will be used
