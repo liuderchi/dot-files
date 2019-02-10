@@ -88,10 +88,14 @@ plugins=(osx \
 # export color mode (for tmux)
 export TERM="xterm-256color"
 
-# NOTE my custom scripts for zsh theme
-source "$HOME/zshrc/pl9k.sh"
+# NOTE run before oh-my-zsh.sh
+POWERLEVEL9K_MODE='nerdfont-fontconfig'  # 'awesome-fontconfig'
 
 source $ZSH/oh-my-zsh.sh
+
+# NOTE my custom scripts for zsh theme
+# after Hyper 2.1, pl9k.sh should run after oh-my-zsh.sh
+source "$HOME/zshrc/pl9k.sh"
 
 # NOTE my custom scripts for some command
 source "$HOME/zshrc/env.cfg"

@@ -2,7 +2,8 @@
 # 2018-02-02 override icon and add randomness to prompt segment separator
 
 # NOTE config theme: powerlevel9k
-# NOTE run before running `source $ZSH/oh-my-zsh.sh` in zshrc
+# NOTE run before running `source $ZSH/oh-my-zsh.sh` in zshrc (v1.x)
+# NOTE run after running `source $ZSH/oh-my-zsh.sh` in zshrc (v2.1)
 
 PL9K_THEME_PATH="$HOME/.oh-my-zsh/custom/themes/powerlevel9k/powerlevel9k.zsh-theme"
 PL9K_VAR_NAME_REGEX='\<POWERLEVEL9K_[a-zA-Z_\$]+\>|\<POWERLEVEL9K_\$.*\>'
@@ -22,7 +23,7 @@ POWERLEVEL9K_MODE='nerdfont-fontconfig'  # 'awesome-fontconfig'
 pl9kVars() { set | awk '/^POWERLEVEL9K_/ {print $0}' }
 plToggle() {
   eval set_default $1 true  # NOTE init: if not init, set a non-empty value
-  if [ $(eval "print \$$1") == false ]; then eval $1=true; else eval $1=false; fi
+  if [ $(eval "print \$$1") = "false" ]; then eval $1=true; else eval $1=false; fi
 }
 pl_toggle_INVERT_DISPLAY() { plToggle POWERLEVEL9K_INVERT_DISPLAY }
 pl_toggle_PROMPT_ON_NEWLINE() { plToggle POWERLEVEL9K_PROMPT_ON_NEWLINE }
