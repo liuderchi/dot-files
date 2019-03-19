@@ -87,7 +87,7 @@ export const jumpToSearchMatch: TypeJumpToSearchMatch = ({
 }) => {
   const newPosition = findInTextEditor({ editor, regex }).translate(0, offset);
   editor.selection = new vscode.Selection(newPosition, newPosition);
-  editor.revealRange(getCurrentLineRange(editor), 1); // Note editor.visibleRanges is readonly
+  editor.revealRange(getCurrentLineRange(editor), 2); // Note editor.visibleRanges is readonly
 };
 
 export const replaceCurrentLine: TypeReplaceCurrentLine = ({
