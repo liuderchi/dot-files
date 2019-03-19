@@ -24,9 +24,13 @@ alias gstl='git stash list'
 alias glprune='gl --prune'  # use zsh alias gl: git pull (Dec 20 16')
 alias gfprune='gf --all --prune'  # use zsh alias gf: git fetch (Apr 21 17')
 alias gconf='git config'
+alias gconfg='git config --global'
+alias gconfunset='git config --unset'
+alias gconfunsetg='git config --unset --global'
 alias gpf='gp --force-with-lease'
 alias gptags='gp --follow-tags'
 alias grefl='git reflog'
+alias gmv='git mv'
 
 gco-() { gco - }
 gpoCurrentbranch() { gp origin $(gcurrentbranch) } # use zsh alias in custom alias 'gp', push current branch to origin (Jan 5 17')
@@ -38,9 +42,9 @@ gfpmergable() { gfprune && gbmergable } # fetch with prune and show mergable bra
 gdCommitCount() { git diff ${1:-HEAD}~$2 ${1:-HEAD} }    # show diff of some range of commits starting from specific one
 gconflist() { gconf --list --show-origin }
 gconflistglobal() { gconf --list --global --show-origin }
+gconfshowUser() { gconf user.name; gconf user.email }
 gconfsetgpg() { gconf commit.gpgsign true }
 gconfsetpager() { gconf --global pager.branch 'cat' }
-gconfigshowUser() { gconf user.name; gconf user.email }
 gconfsetNameEmail() { gconf user.name $GH_LOGIN; gconf user.email $EMAILS[1] }
 gconfsetHttpsClone() { gconf --global url."https://".insteadOf git:// }
 glistAllAuthors() { g log --format='%an < %ae >' | sort -u }

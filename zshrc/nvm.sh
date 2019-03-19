@@ -8,15 +8,15 @@
 #   run this once: $ nvm alias default 7.5.0
 #   reset: $ nvm unalias default
 
-alias nvml='nvm list'
-alias nvmuse='nvm use'
-alias nvmi='nvm install'
-alias nvmun='nvm uninstall'
+alias nvl='nvm list'
+alias nvuse='nvm use'
+alias nvi='nvm install'
+alias nvun='nvm uninstall'
 
 NVM_LOAD_NVMRC=true
 nvm_toggle_LOAD_NVMRC() { plToggle NVM_LOAD_NVMRC }
-nvmlr() { nvm ls-remote $(nvm version node | cut -d. -f1) }
-nvmifrom() {
+nvlr() { nvm ls-remote $(nvm version node | cut -d. -f1) }
+nvifrom() {
   if [ ! -n "$1" ]; then echo 'require version number'; return 1; fi
   local node_version=$(nvm version node 2>/dev/null)
   nvm install $1 --reinstall-packages-from=${2:-${node_version:1}}
@@ -27,7 +27,7 @@ nvmifrom() {
 export NVM_DIR="$HOME/.nvm"
 . "/usr/local/opt/nvm/nvm.sh"
 # [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" --no-use  # just load nvm without doing `nvm use`
-NODE_VERSION='v11.4.0'
+NODE_VERSION='v11.12.0'
 export PATH="$NVM_DIR/versions/node/$NODE_VERSION/bin:$PATH"   # insert path to override built-in node path
 
 # https://medium.com/@kinduff/automatic-version-switch-for-nvm-ff9e00ae67f3

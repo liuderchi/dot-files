@@ -11,13 +11,15 @@ alias npod='npm outdated'
 alias nprun='npm run'
 alias npv='npm version'
 alias npra='npm-run-all'
+alias npconf='npm config'
+alias npconfl='npm config list'
 npGlobalDep() { echo $(nplg | sed 1d | cut -d\  -f2 | cut -d@ -f1) }
 npruni() {
     # npi TODO interactive `npm run foo` prompt powered by ipt
     # interactive npm run foo  https://jaketrent.com/post/list-npm-scripts/
     #   list scripts using `print $(node -pe "require('./package.json').scripts.test")`
 }
-npmlgrep() { npm list --depth=0 2>/dev/null | grep ${1:-''} }
+nplgrep() { npm list --depth=0 2>/dev/null | grep ${1:-''} }
 catPackageGrep() { cat package.json | grep ${1:-''} }
 # require npm i -g fx
 cpfx() {
@@ -26,4 +28,4 @@ cpfx() {
 }
 catPackageDep() { cpfx dependencies }
 catPackageDevDep() { cpfx devDependencies }
-catPackageScrips() { cpfx scripts }
+catPackageScripts() { cpfx scripts }
