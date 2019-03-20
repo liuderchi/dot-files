@@ -34,7 +34,7 @@ const insertToday: EditorOp = ({ editor }) => {
 };
 
 const insertWorkdayCount: EditorOp = ({ editor }) => {
-  const onBoardDay = new Date('2017-06-26');
+  const onBoardDay = new Date(2019, 1, 18);
   const dayCount = Math.ceil(
     (new Date().getTime() - onBoardDay.getTime()) / (86400 * 1000),
   );
