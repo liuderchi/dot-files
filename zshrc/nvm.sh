@@ -15,7 +15,7 @@ alias nvun='nvm uninstall'
 
 NVM_LOAD_NVMRC=true
 nvm_toggle_LOAD_NVMRC() { plToggle NVM_LOAD_NVMRC }
-nvlr() { nvm ls-remote $(nvm version node | cut -d. -f1) }
+nvlr() { nvm ls-remote ${1:-$(node -v | cut -d. -f1)} }
 nvifrom() {
   if [ ! -n "$1" ]; then echo 'require version number'; return 1; fi
   local node_version=$(nvm version node 2>/dev/null)
@@ -27,7 +27,7 @@ nvifrom() {
 export NVM_DIR="$HOME/.nvm"
 . "/usr/local/opt/nvm/nvm.sh"
 # [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" --no-use  # just load nvm without doing `nvm use`
-NODE_VERSION='v11.12.0'
+NODE_VERSION='v12.6.0'
 export PATH="$NVM_DIR/versions/node/$NODE_VERSION/bin:$PATH"   # insert path to override built-in node path
 
 # https://medium.com/@kinduff/automatic-version-switch-for-nvm-ff9e00ae67f3

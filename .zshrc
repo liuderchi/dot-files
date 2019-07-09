@@ -14,7 +14,14 @@ export ZSH=$HOME/.oh-my-zsh
 # ZSH_THEME="agnoster"  # NOTE this requires font: Source Code Pro
 # ZSH_THEME="Myagnoster"
 ZSH_THEME="powerlevel9k/powerlevel9k"
-#ZSH_THEME="random"
+# ZSH_THEME="spaceship"
+#ZSH_THEME="random"  # NOTE https://github.com/denysdovhan/spaceship-prompt/#oh-my-zsh
+
+export SPACESHIP_RPROMPT_ORDER=(
+   node
+   git
+   # TODO extract into antother file
+)
 
 # NOTE
 # use $ chsh -s /bin/zsh # setup default bash source
@@ -71,6 +78,7 @@ ZSH_THEME="powerlevel9k/powerlevel9k"
 # plugin list: https://github.com/robbyrussell/oh-my-zsh/wiki/Plugins#osx
 plugins=(osx \
   docker \
+  kubectl \
   git \
   history \
   zsh-autosuggestions \
@@ -224,8 +232,21 @@ alias cat='bat'
 alias ping="$HOME/prettyping --nolegend"  # install prettyping to
 export FZF_DEFAULT_COMMAND='find * -type f -not -path "node_modules/**"'
 p() { fzf --preview 'bat --color "always" {}' }
-h() { eval $( ([ -n "$ZSH_NAME" ] && fc -l 1 || history) | fzf +s --tac | sed 's/ *[0-9]* *//') }
-hh() { print -z $( ([ -n "$ZSH_NAME" ] && fc -l 1 || history) | fzf +s --tac | sed 's/ *[0-9]* *//') }
+
+fzfHistoryPrompt=$' \uF002  \uE0B1'  #   
+fzfHistory() {
+  print $( \
+    ([ -n "$ZSH_NAME" ] && fc -l 1 || history) \
+    | fzf +s --tac --layout=reverse --prompt="$fzfHistoryPrompt " --height=40% \
+    | sed -E 's/ *[0-9]*\*? *//' \
+  )
+}
+h() {
+  local cmd=$(fzfHistory)
+  echo "$fzfHistoryPrompt $cmd"
+  eval $cmd
+}
+hh() { print -z $(fzfHistory) }
 # See also https://github.com/junegunn/fzf/wiki/examples#command-history
 
 # rust, cargo

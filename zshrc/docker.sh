@@ -65,3 +65,7 @@ alias dcompd='docker-compose down'
 alias dcompre='docker-compose restart'
 alias dcomprm='docker-compose rm'
 alias dcompps='docker-compose ps'
+
+alias kp='kubectl plugin'
+alias keit='kubectl exec -it'
+# other alias for kubect: https://github.com/robbyrussell/oh-my-zsh/blob/master/plugins/kubectl/README.md#aliases

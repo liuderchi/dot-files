@@ -150,9 +150,6 @@ module.exports = {
         & > .tabs_title {
           font-size: 0.9rem;
           color: ${tabTitleColorDefault};
-          &::after {
-            ${ENABLE_POKEMON ? '' : showBottomStripe({ color: mediumBrandColor })}
-          }
         }
         & > ul > li {
           font-size: 0.8rem;
