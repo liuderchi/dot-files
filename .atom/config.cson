@@ -37,7 +37,6 @@
       "emmet"
       "linter"
       "linter-eslint"
-      "linter-stylelint"
     ]
     openEmptyEditorOnStart: false
     packagesWithKeymapsDisabled: [
@@ -60,12 +59,11 @@
     autoIndentOnPaste: false
     backUpBeforeSaving: true
     fontFamily: "Fira Code, SauceCodePro Nerd Font, Hack Nerd Font, monospace"
-    fontSize: 17
+    fontSize: 16
     invisibles: {}
     preferredLineLength: 80
     scrollPastEnd: true
     showInvisibles: true
-    showLineNumbers: false
     softWrap: false
     tabLength: 4
     tabType: "soft"

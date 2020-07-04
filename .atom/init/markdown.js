@@ -165,6 +165,7 @@ addCmd('atom-text-editor', 'markdown:update-WIP-progress-do-not-jump', requireEd
 }))
 
 // NOTE for all editors with markdown grammar, register command to onWillSave
+// NOTE: temporarily disable (atom v1.33)
 // markdownEditorsOnWillSave('markdown:update-WIP-progress-do-not-jump')
 addCmd('atom-text-editor', 'markdown:get-all-my-buffer-subscriptions', () => console.warn(getMyBufferSubscriptions()))
 addCmd('atom-text-editor', 'markdown:clear-all-my-buffer-subscriptions', () => clearSubcriptions(getMyBufferSubscriptions()))
