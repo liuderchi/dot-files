@@ -5,6 +5,7 @@ alias npinos='npm i --no-save'  # npm@5
 alias npinol='npm i --no-package-lock'  # npm@5
 alias nplg='npm list -g --depth=0 2>/dev/null'
 alias npl='npm list --depth=0 2>/dev/null'
+alias npaf='npm audit fix'
 alias nplink='npm link'
 alias npunlink='npm unlink'
 alias npod='npm outdated'

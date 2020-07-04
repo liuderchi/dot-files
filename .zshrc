@@ -1,3 +1,11 @@
+# NOTE comment these to toggle p10k
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+# if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+#   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+# fi
+
 # NOTE this file is from $HOME/.oh-my-zsh/templates/zshrc.zsh-template
 
 # If you come from bash you might have to change your $PATH.
@@ -13,7 +21,8 @@ export ZSH=$HOME/.oh-my-zsh
 # ZSH_THEME="Myrobbyrussell"
 # ZSH_THEME="agnoster"  # NOTE this requires font: Source Code Pro
 # ZSH_THEME="Myagnoster"
-ZSH_THEME="powerlevel9k/powerlevel9k"
+# ZSH_THEME="powerlevel9k/powerlevel9k"
+ZSH_THEME="powerlevel10k/powerlevel10k"
 # ZSH_THEME="spaceship"
 #ZSH_THEME="random"  # NOTE https://github.com/denysdovhan/spaceship-prompt/#oh-my-zsh
 
@@ -103,7 +112,7 @@ source $ZSH/oh-my-zsh.sh
 
 # NOTE my custom scripts for zsh theme
 # after Hyper 2.1, pl9k.sh should run after oh-my-zsh.sh
-source "$HOME/zshrc/pl9k.sh"
+# source "$HOME/zshrc/pl9k.sh"
 
 # NOTE my custom scripts for some command
 source "$HOME/zshrc/env.cfg"
@@ -176,6 +185,16 @@ alias copy='pbcopy'  # pipable clipboard in macOS
 alias wi='which'
 alias cl='clear'
 alias mdlint='markdownlint'
+# npm-check-update
+alias ncuu='ncu -u'
+alias ncuua='ncu -ua'
+alias ffm='ffmpeg'
+alias ..2='../../'
+alias ..3='../../../'
+
+alias ft='flow-typed'
+alias fti='flow-typed install'
+alias ftu='flow-typed update'
 
 cddirname() { cd $(dirname ${1:-$(pwd)}) }
 checkReboot() { if [ -f /var/run/reboot-required ]; then echo 'reboot required'; else echo 'no need reboot'; fi }
@@ -187,6 +206,24 @@ psAUXGrep() { psAUX | awk '{if(NR==1)print}'; psAUX | grep $1 }
 grepc() { grep -C ${2:-5} $1 }
 shellOptions() { print $- }
 getCurrentShell() { ps -ef | grep $$ | grep -v grep }
+mov2gif() {
+  # https://gist.github.com/dergachev/4627207#instructions
+  if [ -z "$1" ]; then echo 'mov2gif: should specify input .mov file'; return 1; fi
+  ffmpeg -i $1 \
+    -vf scale=${2:-1400}:-1 -pix_fmt rgb8 -r 10 -f gif - \
+    | gifsicle --optimize=3 > $(basename $1 .mov).gif
+}
+
+# imageMagic
+alias cv='convert'
+# TODO imageMagic shorhands
+# - add zsh cli for imageMagic
+#     1. find min/max of width/height of all images in folder
+#         - WIP
+#     2. resize all images to specific width/height in folder
+#         - e.g. `convert -resize 2000x2000 -quality 20 image00018.jpg r2000x2000_image00018.jpg;`
+#     3. `convert -append *.jpg out.jpg` shorthand
+#         - c.f. `convert *.jpg out.pdf`
 
 alias tm='tmux'
 alias tml='tmux ls'
@@ -223,9 +260,15 @@ findMarkdownHas() {
 clearAtomNodeModules() { rm -rf node_modules apm/node_modules script/node_modules }
 buildAtomThenInstall() { ./script/build --code-sign --install }
 
+# vscode
 # Add Visual Studio Code (code)
 # https://code.visualstudio.com/docs/setup/mac
 PATH="$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
+vslink() { ln -s $(pwd) $HOME/.vscode/extensions/$(basename $(pwd)) }
+vsunlink() {
+  if [ -z "$1" ]; then echo 'vsunlink: should specify extension name'; return 1; fi
+  rm -rf $HOME/.vscode/extensions/$1
+}
 
 # Improved CLI tools   https://remysharp.com/2018/08/23/cli-improved?utm_campaign=CodeTengu&utm_medium=web&utm_source=CodeTengu_141
 alias cat='bat'
@@ -241,6 +284,7 @@ fzfHistory() {
     | sed -E 's/ *[0-9]*\*? *//' \
   )
 }
+unalias h
 h() {
   local cmd=$(fzfHistory)
   echo "$fzfHistoryPrompt $cmd"
@@ -252,17 +296,21 @@ hh() { print -z $(fzfHistory) }
 # rust, cargo
 PATH="$PATH:$HOME/.cargo/bin"
 
-# vscode
-vslink() { ln -s $(pwd) $HOME/.vscode/extensions/$(basename $(pwd)) }
-vsunlink() {
-  if [ -z "$1" ]; then echo 'vsunlink: should specify extension name'; return 1; fi
-  rm -rf $HOME/.vscode/extensions/$1
+# Chrome, Puppeteer
+chromePath='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
+chromeCanaryPath='/Applications/Google Chrome Canary.app/Contents/MacOS/Google Chrome Canary'
+chromiumPath='/Applications/Chromium.app/Contents/MacOS/Chromium'
+startChromiumWithNewSession() {
+  $chromiumPath \
+    --remote-debugging-port=9222 \
+    --no-first-run \
+    --no-default-browser-check \
+    --user-data-dir=$(mktemp -d -t 'chrome-remote_data_dir')
+}
+startChromeWithRemoteDubugging() {
+  $chromePath --remote-debugging-port=9222
 }
 
-# npm-check-update
-alias ncuu='ncu -u'
-alias ncuua='ncu -ua'
-
-alias ft='flow-typed'
-alias fti='flow-typed install'
-alias ftu='flow-typed update'
+# NOTE comment these to toggle p10k
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
