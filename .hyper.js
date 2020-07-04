@@ -9,11 +9,34 @@
 
 // toggle hyper-pokemon
 const ENABLE_POKEMON = false;
-const mtkBrandColor = 'rgba(243, 154, 30, 0.5)';
-const mediumBrandColor = 'rgb(0, 171, 108)';
-const tabTitleColorDefault = 'rgba(204, 204, 204, 0.7)';
-const tabTitleColorActive = 'rgb(204, 204, 204)';
-const backgroundOpacity = 0.8;
+
+// https://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb/39077686#39077686
+const hex2Rgba = (hex, opacity = 1) => {
+  const rgbaArray = hex
+    .replace(/^#?([a-f\d])([a-f\d])([a-f\d])$/i, (m, r, g, b) => `#${r}${r}${g}${g}${b}${b}`)
+    .substring(1)  // remove leading #
+    .match(/.{2}/g)
+    .map(x => parseInt(x, 16))
+  if (rgbaArray.length === 3) {
+    rgbaArray.push(opacity)
+  }
+  return `rgba(${rgbaArray.join(',')})`
+}
+
+const grey = '#ccc';
+const mtkOrange = '#f39a1e';
+const mediumGreen = '#00ab6c';
+const appleGreen = '#30d158';
+const appleOrange = '#ff9f0a';
+const kpTheme = '#0dd'
+
+// theme and palette
+const theme = {
+  backgroundOpacity: 0.8,
+  tabTitleColorDefault: hex2Rgba(grey, 0.7),
+  tabTitleColorActive: grey,
+  colors: {}
+}
 
 const blinkWhenTabHasActitivy = ({ color } = {}) => `
   &.tab_hasActivity > span.tab_text > span.tab_textInner {
@@ -53,14 +76,14 @@ const showDotOnTabActive = ({ color } = {}) => `
       -webkit-border-radius: 0.2rem;
       width: 0.4rem;
       height: 0.4em;
-      margin-left: 0.1rem;
+      margin-left: 0.5rem;
 
       position: absolute;
-      top: 1.3rem;
+      top: 0.9rem;
     }
   }
 `;
-const showBottomStripe = ({ color }) => `
+const showBottomStripe = ({ color } = {}) => `
   content: '';
   position: absolute;
   bottom: 0;
@@ -81,7 +104,7 @@ const showBottomStripeOnTabActive = ({ color } = {}) => `
     ${showBottomStripe({ color })}
   }
 `;
-const setTabColorWhenActive = color => `
+const setTabWhenActive = ({ color } = {}) => `
   &.tab_hasActivity, &.tab_active {
     color: ${color || 'gold'};  // NOTE: overwrite
   }
@@ -96,6 +119,9 @@ module.exports = {
     fontSize: 16,
 
     fontFamily: [
+      // TODO: consider whether is good for icons
+      // 'MesloLGS NF',  // powerlevel 10k, https://github.com/liuderchi/powerlevel10k/blob/master/README.md#meslo-nerd-font-patched-for-powerlevel10k
+      'Cascadia Code',
       'Fira Code',
       'Hack Nerd Font', // Alt: 'SauceCodePro Nerd Font'
       'monospace',
@@ -114,7 +140,7 @@ module.exports = {
     letterSpacing: -0.5,
 
     // terminal cursor background color and opacity (hex, rgb, hsl, hsv, hwb or cmyk)
-    cursorColor: mtkBrandColor,
+    cursorColor: hex2Rgba(appleOrange, 0.5),
 
     // terminal text color under BLOCK cursor
     cursorAccentColor: '#000',
@@ -130,7 +156,7 @@ module.exports = {
 
     // terminal background color
     // opacity is only supported on macOS
-    // backgroundColor: `rgba(26, 26, 26, ${backgroundOpacity})`,
+    // backgroundColor: `rgba(26, 26, 26, ${theme.backgroundOpacity})`,
     backgroundColor: `rgba(26, 26, 26, 1)`,
     // NOTE (before v2.1) leads to autocomplete selected option text hidden if opacity < 1
 
@@ -138,7 +164,7 @@ module.exports = {
     selectionColor: 'rgba(193, 222, 255, 0.3)',
 
     // border color (window, tabs)
-    borderColor: `rgba(26, 26, 26, ${backgroundOpacity})`,
+    borderColor: `rgba(26, 26, 26, ${theme.backgroundOpacity})`,
 
     // custom CSS to embed in the main window
     css: `
@@ -149,20 +175,20 @@ module.exports = {
       header > nav.tabs_nav {
         & > .tabs_title {
           font-size: 0.9rem;
-          color: ${tabTitleColorDefault};
+          color: ${theme.tabTitleColorDefault};
         }
         & > ul > li {
           font-size: 0.8rem;
-          color: ${tabTitleColorDefault};
-          ${setTabColorWhenActive(tabTitleColorActive)}
+          color: ${theme.tabTitleColorDefault};
+          ${setTabWhenActive({ color: theme.tabTitleColorActive})}
           ${ENABLE_POKEMON ? 'background-color: transparent!important;' : ''}
           ${
             ENABLE_POKEMON
               ? ''
-              : showBottomStripeOnTabActive({ color: mediumBrandColor })
+              : showBottomStripeOnTabActive({ color: hex2Rgba(appleGreen, 0.5) })
           }
-          ${showDotOnTabActive({ color: mediumBrandColor })}
-          // blinkWhenTabHasActitivy({ color: mediumBrandColor})
+          ${showDotOnTabActive({ color: hex2Rgba(appleGreen, 0.6) })}
+          // blinkWhenTabHasActitivy({ color: mediumGreen})
         }
       }
 
@@ -193,7 +219,7 @@ module.exports = {
     // an array here instead of a color map object
     colors: {
       // NOTE customized iTerm2 TangoDark theme
-      // black: `rgba(26, 26, 26, ${backgroundOpacity - 0.5})`,
+      // black: `rgba(26, 26, 26, ${theme.backgroundOpacity - 0.5})`,
       black: `rgba(26, 26, 26, 1)`,  // for invert display
       red: 'rgba(216, 30, 0, 1)',
       green: 'rgba(94, 167, 2, 1)',
@@ -282,7 +308,7 @@ module.exports = {
     'hyper-search',
     'hypercwd',
     'hyper-confirm',
-    ENABLE_POKEMON ? 'hyper-pokemon' : '',
+    ENABLE_POKEMON ? 'hyper-pokemon' : null,
   ],
 
   // in development, you can create a directory under
