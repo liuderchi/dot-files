@@ -216,6 +216,29 @@ mov2gif() {
 
 # imageMagic
 alias cv='convert'
+cvResize() {
+  if [ -z "$1" ]; then echo 'convert: specify input file name'; return -1; fi
+  if [ -z "$2" ]; then echo 'convert: specify resize arg e.g. 50%'; return -1; fi
+
+  filename=$(basename -- "$1")
+  extension="${filename##*.}"
+  filenameWithoutExt="${filename%.*}"
+
+  out="$filenameWithoutExt.$2.$extension"
+  cv $1 -resize $2 $out
+}
+cvToPdf() {
+  if [ -z "$1" ]; then echo 'convert: specify input file name'; return -1; fi
+  if [ -z "$2" ]; then echo 'convert: specify output pdf'; return -1; fi
+
+  cv $1 +adjoin $2
+}
+cvAllJpgToPdf() {
+  cv *.jpg +adjoin page.%d.pdf
+}
+# https://apple.stackexchange.com/a/230447
+#   e.g. joinPdf -o out.merged.pdf page-*.pdf
+alias joinPdf="/System/Library/Automator/Combine\ PDF\ Pages.action/Contents/Resources/join.py"
 # TODO imageMagic shorhands
 # - add zsh cli for imageMagic
 #     1. find min/max of width/height of all images in folder
