@@ -27,7 +27,7 @@ nvifrom() {
 export NVM_DIR="$HOME/.nvm"
 . "/usr/local/opt/nvm/nvm.sh"
 # [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" --no-use  # just load nvm without doing `nvm use`
-NODE_VERSION='v14.5.0'
+NODE_VERSION='v14.10.1'
 export PATH="$NVM_DIR/versions/node/$NODE_VERSION/bin:$PATH"   # insert path to override built-in node path
 
 # https://medium.com/@kinduff/automatic-version-switch-for-nvm-ff9e00ae67f3
