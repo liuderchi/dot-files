@@ -85,19 +85,18 @@ export SPACESHIP_RPROMPT_ORDER=(
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 # plugin list: https://github.com/robbyrussell/oh-my-zsh/wiki/Plugins#osx
-plugins=(osx \
+plugins=(
+  osx \
   docker \
   kubectl \
   git \
   history \
-  zsh-autosuggestions \
-  zsh-syntax-highlighting \
   yarn-autocompletions \
-  )
-# NOTE install custom plugin with cmd:
-#   git clone https://github.com/zsh-users/zsh-autosuggestions $ZSH_CUSTOM/plugins/zsh-autosuggestions
-#   git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
-#   goto https://github.com/g-plane/zsh-yarn-autocompletions
+  zsh-autosuggestions \
+  zsh-completions \
+  zsh-nvm \
+  zsh-syntax-highlighting \
+)
 # NOTE plugin katas
 #    history: hs 'git pull'  # show usage
 #    debian:  di  # 'sudo dpkg -i'
@@ -130,6 +129,10 @@ source "$HOME/zshrc/docker.sh"
 
 # set auto suggestion color  https://github.com/zsh-users/zsh-autosuggestions/issues/12
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=239'    # options: magenta 22, 239
+
+# enable plugin zsh-completions by reloading completion
+# https://github.com/liuderchi/zsh-completions#oh-my-zsh
+autoload -U compinit && compinit
 
 # User configuration
 
@@ -299,6 +302,8 @@ alias ping="$HOME/prettyping --nolegend"  # install prettyping to
 export FZF_DEFAULT_COMMAND='find * -type f -not -path "node_modules/**"'
 p() { fzf --preview 'bat --color "always" {}' }
 
+# command using fzf
+unalias h
 fzfHistoryPrompt=$' \uF002  \uE0B1'  #   
 fzfHistory() {
   print $( \
@@ -307,14 +312,32 @@ fzfHistory() {
     | sed -E 's/ *[0-9]*\*? *//' \
   )
 }
-unalias h
-h() {
+h() { print -z $(fzfHistory) }
+hh() {
   local cmd=$(fzfHistory)
   echo "$fzfHistoryPrompt $cmd"
   eval $cmd
 }
-hh() { print -z $(fzfHistory) }
 # See also https://github.com/junegunn/fzf/wiki/examples#command-history
+
+fzfLsof() {
+  # show collapse lsof result, for narrow screen width
+  print $( \
+    ([ -n "$ZSH_NAME" ] && lsof -nP) \
+    | awk '{$6=$7=""}1' \
+    | fzf +s --tac --layout=reverse --prompt="$fzfHistoryPrompt " --height=40% \
+    | sed -E 's/ *[0-9]*\*? *//' \
+  )
+}
+fp() {
+  # usage1: 'LISTEN '<port>
+  # usage2: 'cwd '<pid>
+  local entry=$(fzfLsof)
+  local entryArray=( $(echo $entry | cut -d' ' -f1-) )
+  local pid=${entryArray[2]}
+  if [ -z $pid ]; then return 1; fi
+  print -z "# ${entry}\nkill $pid"
+}
 
 # rust, cargo
 PATH="$PATH:$HOME/.cargo/bin"

@@ -2,7 +2,15 @@
 # NOTE use git alias declared in `$ZSH/oh-my-zsh.sh`: g, gb, gc, gco, gf, gm, gl, gp
 # NOTE should run after `oh-my-zsh.sh`; (alias declare order matters)
 
-gcurrentbranch() { git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/' }
+# gcurrentbranch() { git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/' }
+gcurrentbranch() {
+  local result=$(git rev-parse --abbrev-ref HEAD)
+  if [[ $result = 'HEAD' ]]; then
+    echo "You are detached on $(git rev-parse HEAD)"
+    return -1
+  fi
+  echo $result
+}
 
 # git
 alias gs='git status'  # overwrite ghostscript (Sep 9 16')
@@ -72,13 +80,15 @@ gbackupBranch() {  # NOTE create a brach with timestamp for backup.   https://st
   local branch=$(_generateBranch bkp $1)
   git branch $branch && echo "created branch: $branch"
 }
+gpAllBkpBranches() {
+  local branches=( $(git branch | grep 'bkp/' | sed "s/[* ]//g") )
+  for branch in "${branches[@]}"; do
+    git push ${1:-origin} -u ${branch}:${branch}
+  done
+}
 gNoteOnBranch() {
   local branch=$(_generateBranch note $1)
   git branch $branch && echo "created branch: $branch"
-}
-gbmove() {   # move branch to other reference without checking out
-  if [ -z "$1" ]; then echo 'gbmove: You need to provide a branch to move'; return -1; fi
-  gbf $1 ${2:-HEAD}
 }
 gmergeBy() {  # merge some branch into current branch without changing file system
   gbmove $1 && gco $1

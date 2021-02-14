@@ -25,9 +25,11 @@ nvifrom() {
 # nvm performance issue https://github.com/creationix/nvm/issues/860
 # set default version manually to avoid running "nvm alias", "nvm use"
 export NVM_DIR="$HOME/.nvm"
-. "/usr/local/opt/nvm/nvm.sh"
+# . "/usr/local/opt/nvm/nvm.sh"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 # [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" --no-use  # just load nvm without doing `nvm use`
-NODE_VERSION='v14.10.1'
+# [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # Optional: This loads nvm bash_completion
+NODE_VERSION='v14.15.5'
 export PATH="$NVM_DIR/versions/node/$NODE_VERSION/bin:$PATH"   # insert path to override built-in node path
 
 # https://medium.com/@kinduff/automatic-version-switch-for-nvm-ff9e00ae67f3
