@@ -4,15 +4,11 @@
   "atom-i18n":
     customMenuI18nPath: "/home/derek/atom-i18n/def/custom_menu.cson"
     locale: "zh-tw"
-  "atom-ide-ui":
-    "atom-ide-diagnostics-ui":
-      autoVisibility: true
-    use: {}
   "atom-latex":
     build_after_save: false
   "atom-material-ui":
     colors:
-      abaseColor: "#00c8c8"
+      abaseColor: "#00dddd"
     tabs:
       compactTabs: true
       noTabMinWidth: true
@@ -32,11 +28,6 @@
     disabledPackages: [
       "ide-typescript"
       "linter-ui-default"
-      "linter-flow"
-      "hyperclick"
-      "emmet"
-      "linter"
-      "linter-eslint"
     ]
     openEmptyEditorOnStart: false
     packagesWithKeymapsDisabled: [
@@ -58,8 +49,7 @@
   editor:
     autoIndentOnPaste: false
     backUpBeforeSaving: true
-    fontFamily: "Fira Code, SauceCodePro Nerd Font, Hack Nerd Font, monospace"
-    fontSize: 16
+    fontSize: 14
     invisibles: {}
     preferredLineLength: 80
     scrollPastEnd: true
@@ -169,9 +159,6 @@
     softWrap: false
     tabLength: 2
 ".css.less.source":
-  editor:
-    tabLength: 2
-".css.source":
   editor:
     tabLength: 2
 ".gfm.source":
