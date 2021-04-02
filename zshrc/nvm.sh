@@ -12,6 +12,7 @@ alias nvl='nvm list'
 alias nvuse='nvm use'
 alias nvi='nvm install'
 alias nvun='nvm uninstall'
+alias nvv='nvm current'
 
 NVM_LOAD_NVMRC=true
 nvm_toggle_LOAD_NVMRC() { plToggle NVM_LOAD_NVMRC }

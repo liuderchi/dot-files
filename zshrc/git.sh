@@ -67,7 +67,7 @@ gconfshowUser() { gconf user.name; gconf user.email }
 gconfsetgpg() { gconf commit.gpgsign true }
 gconfsetpager() { gconf --global pager.branch 'cat' }
 gconfsetNameEmail() { gconf user.name $GH_LOGIN; gconf user.email $EMAILS[1] }
-gconfsetHttpsClone() { gconf --global url."https://".insteadOf git:// }
+gconfsetHttpsClone() { gconf --global url."https://".insteadOf git:// }  # https://gist.github.com/Kovrinic/ea5e7123ab5c97d451804ea222ecd78a
 glistAllAuthors() { g log --format='%an < %ae >' | sort -u }
 _generateBranch() {
   local _prefix=${1:-''}
@@ -83,7 +83,7 @@ gbackupBranch() {  # NOTE create a brach with timestamp for backup.   https://st
 gpAllBkpBranches() {
   local branches=( $(git branch | grep 'bkp/' | sed "s/[* ]//g") )
   for branch in "${branches[@]}"; do
-    git push ${1:-origin} -u ${branch}:${branch}
+    git push ${1:-origin} -u ${branch}:${branch} --no-verify
   done
 }
 gNoteOnBranch() {
@@ -116,5 +116,10 @@ gsync() { gco $1 && gl && gp origin }   # sync current branch by mergin if not a
 gsyncRebase() { gco $1 && grbonto upstream/${1:-$(gcurrentbranch)} HEAD && gp origin -f }   # sync current branch by rebasing if not arg specified
 gRepoName() { basename -s .git $(git config --get remote.origin.url) }
 gIgnoreCheck() { git check-ignore -v * }  # who ignore my file?
+gkk() {
+  # https://gist.github.com/dersam/0ec781e8fe552521945671870344147b#gistcomment-3453494
+  open gitkraken://repo$(cd "${1:-.}" >/dev/null && git rev-parse --show-toplevel)
+}
 
+# http://git-scm.com/docs/git-var#_variables
 export GIT_EDITOR='code --wait'
