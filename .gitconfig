@@ -1,0 +1,15 @@
+# http://git-scm.com/docs/git-config#_variables
+[user]
+	name = name
+	email = email
+	signingkey = signingkey
+[core]
+	whitespace=blank-at-eol
+[commit]
+	gpgsign = false
+[gpg]
+	program = gpg
+[pager]
+	branch = cat
+[pull]
+	ff = only
