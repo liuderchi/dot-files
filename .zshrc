@@ -209,6 +209,16 @@ psAUXGrep() { psAUX | awk '{if(NR==1)print}'; psAUX | grep $1 }
 grepc() { grep -C ${2:-5} $1 }
 shellOptions() { print $- }
 getCurrentShell() { ps -ef | grep $$ | grep -v grep }
+alias gpgl='gpg --list-secret-keys --keyid-format LONG'
+alias gpgImport='gpg —-import'
+gpgExportPublic() {
+  if [ -z "$1" ]; then echo 'gpgExportPublic <id>'; return -1; fi
+  gpg -a --export $1 > public.asc
+}
+gpgExportPrivate() {
+  if [ -z "$1" ]; then echo 'gpgExportPrivate <id>'; return -1; fi
+  gpg -a --export-secret-keys $1 > secret.asc
+}
 mov2gif() {
   # https://gist.github.com/dergachev/4627207#instructions
   if [ -z "$1" ]; then echo 'mov2gif: should specify input .mov file'; return 1; fi
