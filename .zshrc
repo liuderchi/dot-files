@@ -367,6 +367,15 @@ startChromeWithRemoteDubugging() {
   $chromePath --remote-debugging-port=9222
 }
 
+# management spotlight index for perf
+# delete spotlight index; https://www.alfredapp.com/help/troubleshooting/indexing/ > 3. spotlight settings
+#   rebuild spotlight index; https://www.alfredapp.com/help/troubleshooting/indexing/ > 5. rebuild metadata index
+#   /Applications/Alfred 4.app/Contents/Frameworks/Alfred Framework.framework/Versions/A/Resources/reindexdel.sh
+#   rm path/to/.Spotlight-V100 && sudo mdutil -E -i on /
+# rebuild alfred app cache; https://www.alfredapp.com/help/troubleshooting/indexing/ > 6. reload app cache
+alias mduOn='sudo mdutil -a -i on' # enable index build background job, required by alfred app cache reload
+alias mduOff='sudo mdutil -a -i off' # disable index build background job
+
 # NOTE comment these to toggle p10k
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
