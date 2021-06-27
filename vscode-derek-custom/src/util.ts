@@ -1,5 +1,3 @@
-'use strict';
-
 import * as vscode from 'vscode';
 import { getFileNameCap, withWarningMessage, withActiveEditor } from './_util';
 
@@ -17,7 +15,7 @@ const insertFunctionalComponent = ({
 
 export default [
   vscode.commands.registerCommand(
-    'extension.util.insertFunctionalComponent',
+    'derek-custom.util.insertFunctionalComponent',
     withWarningMessage(withActiveEditor(insertFunctionalComponent)),
   ),
 ];

@@ -1,12 +1,5 @@
-'use strict';
-
 import * as vscode from 'vscode';
 import * as path from 'path';
-import {
-  TypeReplaceCurrentLine,
-  TypeJumpToSearchMatch,
-  TypeFindInTextEditor,
-} from './types';
 
 export const getYearMonthDay: (date?: Date) => [number, string, string] = (
   date = new Date(),
@@ -26,7 +19,7 @@ export const getFileNameCap = (fileName: string) => {
     ? regexMatch[1]
         .replace(/[!-.\:-\@\[-\`\{-~]/g, ' ') // non-Word, /[\W_]/g
         .split(' ')
-        .map(w => w.charAt(0).toUpperCase() + w.slice(1))
+        .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
         .join(' ')
     : 'Foo';
 };
@@ -35,7 +28,7 @@ export const withWarningMessage = (fcn: () => any) => () => {
   try {
     fcn();
   } catch (e) {
-    vscode.window.showWarningMessage(e);
+    vscode.window.showWarningMessage(e as string);
   }
 };
 
@@ -47,13 +40,13 @@ export const withActiveEditor = (f: Function) => () => {
   f({ editor });
 };
 
-export const withSuccessCheck = (f: Function, ...args: any[]) => (
-  success: boolean,
-): any => {
-  if (success) {
-    return f(...args);
-  }
-};
+export const withSuccessCheck =
+  (f: Function, ...args: any[]) =>
+  (success: boolean): any => {
+    if (success) {
+      return f(...args);
+    }
+  };
 
 export const getCurrentLine = (editor: vscode.TextEditor): vscode.TextLine => {
   const currentLineNum = editor.selection.start.line; // start from zero
@@ -66,7 +59,13 @@ export const getCurrentLineRange = (editor: vscode.TextEditor): vscode.Range =>
 export const getCurrentLineText = (editor: vscode.TextEditor): string =>
   getCurrentLine(editor).text;
 
-export const findInTextEditor: TypeFindInTextEditor = ({ regex, editor }) => {
+export const findInTextEditor = ({
+  regex,
+  editor,
+}: {
+  regex: RegExp;
+  editor: vscode.TextEditor;
+}): vscode.Position => {
   let line = -1,
     character = -1;
   for (let _line = 0, _char = -1; _line < editor.document.lineCount; _line++) {
@@ -80,21 +79,29 @@ export const findInTextEditor: TypeFindInTextEditor = ({ regex, editor }) => {
   return new vscode.Position(line, character);
 };
 
-export const jumpToSearchMatch: TypeJumpToSearchMatch = ({
+export const jumpToSearchMatch = ({
   regex,
   offset = 0,
   editor,
-}) => {
+}: {
+  regex: RegExp;
+  offset?: number;
+  editor: vscode.TextEditor;
+}): void => {
   const newPosition = findInTextEditor({ editor, regex }).translate(0, offset);
   editor.selection = new vscode.Selection(newPosition, newPosition);
   editor.revealRange(getCurrentLineRange(editor), 2); // Note editor.visibleRanges is readonly
 };
 
-export const replaceCurrentLine: TypeReplaceCurrentLine = ({
+export const replaceCurrentLine = ({
   regex,
   str,
   editor,
-}) => {
+}: {
+  regex: RegExp;
+  str: string;
+  editor: vscode.TextEditor;
+}): void => {
   editor.edit((edit: vscode.TextEditorEdit) => {
     const { text, range } = getCurrentLine(editor);
     edit.replace(range, text.replace(regex, str));
