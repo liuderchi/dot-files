@@ -91,6 +91,7 @@ plugins=(
   kubectl \
   git \
   history \
+  shrink-path \
   yarn-autocompletions \
   zsh-autosuggestions \
   zsh-completions \
@@ -103,9 +104,6 @@ plugins=(
 
 # export color mode (for tmux)
 export TERM="xterm-256color"
-
-# NOTE run before oh-my-zsh.sh
-POWERLEVEL9K_MODE='nerdfont-fontconfig'  # 'awesome-fontconfig'
 
 source $ZSH/oh-my-zsh.sh
 
@@ -126,6 +124,7 @@ source "$HOME/zshrc/docker.sh"
 
 # load autojump  https://github.com/wting/autojump
 [ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
+[ -f /opt/homebrew/etc/profile.d/autojump.sh ] && . /opt/homebrew/etc/profile.d/autojump.sh
 
 # set auto suggestion color  https://github.com/zsh-users/zsh-autosuggestions/issues/12
 export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=239'    # options: magenta 22, 239
@@ -227,7 +226,7 @@ mov2gif() {
     | gifsicle --optimize=3 > $(basename $1 .mov).gif
 }
 
-# imageMagic
+# imagemagick
 alias cv='convert'
 cvResize() {
   if [ -z "$1" ]; then echo 'convert: specify input file name'; return -1; fi
