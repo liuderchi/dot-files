@@ -10,14 +10,39 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:derek-custom.helloWorld"
+    "onCommand:derek-custom.md.insertInitTemplate",
+    "onCommand:derek-custom.md.insertToday",
+    "onCommand:derek-custom.md.insertWorkdayCount",
+    "onCommand:derek-custom.md.insertWipProgress",
+    "onCommand:derek-custom.md.updateWipProgress",
+    "onCommand:derek-custom.util.insertFunctionalComponent"
   ],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "derek-custom.helloWorld",
-        "title": "Hello World"
+        "command": "derek-custom.md.insertInitTemplate",
+        "title": "Markdown: Insert Init Template"
+      },
+      {
+        "command": "derek-custom.md.insertToday",
+        "title": "Markdown: Insert Today"
+      },
+      {
+        "command": "derek-custom.md.insertWorkdayCount",
+        "title": "Markdown: Insert Workday Count"
+      },
+      {
+        "command": "derek-custom.md.insertWipProgress",
+        "title": "Markdown: Insert WIP Progress"
+      },
+      {
+        "command": "derek-custom.md.updateWipProgress",
+        "title": "Markdown: Update WIP Progress"
+      },
+      {
+        "command": "derek-custom.util.insertFunctionalComponent",
+        "title": "Util: Insert Functional Component"
       }
     ]
   },
