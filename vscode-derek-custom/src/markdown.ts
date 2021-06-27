@@ -1,5 +1,3 @@
-'use strict';
-
 import * as vscode from 'vscode';
 import {
   getFileNameCap,
@@ -11,7 +9,8 @@ import {
   replaceCurrentLine,
   setCursorToSelectionEnd,
 } from './_util';
-import { EditorOp } from './types';
+
+export type EditorOp = ({ editor }: { editor: vscode.TextEditor }) => void;
 
 const insertInitTemplate: EditorOp = ({ editor }) => {
   const fileNameCap = getFileNameCap(editor.document.fileName);
@@ -73,23 +72,23 @@ const updateWipProgress: EditorOp = ({ editor }): void => {
 
 export default [
   vscode.commands.registerCommand(
-    'extension.md.insertInitTemplate',
+    'derek-custom.md.insertInitTemplate',
     withWarningMessage(withActiveEditor(insertInitTemplate)),
   ),
   vscode.commands.registerCommand(
-    'extension.md.insertToday',
+    'derek-custom.md.insertToday',
     withWarningMessage(withActiveEditor(insertToday)),
   ),
   vscode.commands.registerCommand(
-    'extension.md.insertWorkdayCount',
+    'derek-custom.md.insertWorkdayCount',
     withWarningMessage(withActiveEditor(insertWorkdayCount)),
   ),
   vscode.commands.registerCommand(
-    'extension.md.insertWipProgress',
+    'derek-custom.md.insertWipProgress',
     withWarningMessage(withActiveEditor(insertWipProgress)),
   ),
   vscode.commands.registerCommand(
-    'extension.md.updateWipProgress',
+    'derek-custom.md.updateWipProgress',
     withWarningMessage(withActiveEditor(updateWipProgress)),
   ),
 ];
