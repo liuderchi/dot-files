@@ -86,7 +86,7 @@ export SPACESHIP_RPROMPT_ORDER=(
 # Add wisely, as too many plugins slow down shell startup.
 # plugin list: https://github.com/robbyrussell/oh-my-zsh/wiki/Plugins#osx
 plugins=(
-  osx \
+  macos \
   docker \
   kubectl \
   git \
