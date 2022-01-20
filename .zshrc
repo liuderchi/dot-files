@@ -350,6 +350,7 @@ fp() {
 
 # rust, cargo
 PATH="$PATH:$HOME/.cargo/bin"
+source $HOME/.cargo/env
 
 # Chrome, Puppeteer
 chromePath='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
