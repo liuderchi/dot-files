@@ -1,3 +1,8 @@
+# Fig pre block. Keep at the top of this file.
+export PATH="${PATH}:${HOME}/.local/bin"
+eval "$(fig init zsh pre)"
+
+
 # NOTE comment these to toggle p10k
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
@@ -379,3 +384,8 @@ alias mduOff='sudo mdutil -a -i off' # disable index build background job
 # NOTE comment these to toggle p10k
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+
+
+# Fig post block. Keep at the bottom of this file.
+eval "$(fig init zsh post)"
