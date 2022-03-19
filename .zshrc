@@ -126,8 +126,8 @@ source "$HOME/zshrc/docker.sh"
 [ -f /usr/local/etc/profile.d/autojump.sh ] && . /usr/local/etc/profile.d/autojump.sh
 [ -f /opt/homebrew/etc/profile.d/autojump.sh ] && . /opt/homebrew/etc/profile.d/autojump.sh
 
-# set auto suggestion color  https://github.com/zsh-users/zsh-autosuggestions/issues/12
-export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=239'    # options: magenta 22, 239
+# https://github.com/zsh-users/zsh-autosuggestions#suggestion-highlight-style
+export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=239'
 
 # enable plugin zsh-completions by reloading completion
 # https://github.com/liuderchi/zsh-completions#oh-my-zsh
