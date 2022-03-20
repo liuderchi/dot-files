@@ -1,5 +1,6 @@
 # 2017-12-25 powerlevel9k variables
 # 2018-02-02 override icon and add randomness to prompt segment separator
+# 2020-07-04 deprecated, use p10k.sh
 
 # NOTE config theme: powerlevel9k
 # NOTE run before running `source $ZSH/oh-my-zsh.sh` in zshrc (v1.x)
