@@ -25,3 +25,5 @@
 
 !.hyper_plugins
 !.hyper_plugins/package.json
+
+!vscode-derek-custom
