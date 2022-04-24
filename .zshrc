@@ -1,7 +1,5 @@
-# [fig] Fig pre block. Keep at the top of this file.
-export PATH="${PATH}:${HOME}/.local/bin"
-eval "$(fig init zsh pre)"
-
+# Fig pre block. Keep at the top of this file.
+. "$HOME/.fig/shell/zshrc.pre.zsh"
 
 # [p10k] comment these to toggle p10k
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
@@ -180,5 +178,5 @@ source "$HOME/zshrc/_deprecated.sh"
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 
-# [fig] Fig post block. Keep at the bottom of this file.
-eval "$(fig init zsh post)"
+# Fig post block. Keep at the bottom of this file.
+. "$HOME/.fig/shell/zshrc.post.zsh"
